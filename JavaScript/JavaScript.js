@@ -18,6 +18,7 @@ async function initMap() {
             title: a[i].airport_name // 可选的标记标题
         });
     }
+
     // Set costume markers
     setMarkers(map);
 }
