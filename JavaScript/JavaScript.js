@@ -38,6 +38,7 @@ async function asynchronousFunction() {
 }
 
 
+
 // ----------------------------------------------------------------------------------------------------------
 // Set custom markers on the map. Can be used to display planes and task marks.
 
