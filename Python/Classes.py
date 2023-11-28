@@ -4,7 +4,7 @@ from Python.DatabaseConnection import getResultList
 
 # -------------------------------------------------------------------
 class Player:
-    sql = "select current_location from player_information;"
+    sql = "select current_location from player;"
     current_location = getResultList(sql)[0][0]
 
     def __init__(self, id, fuel):
