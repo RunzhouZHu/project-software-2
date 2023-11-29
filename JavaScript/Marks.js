@@ -28,9 +28,9 @@ async function setPlayerMark(map) {
         position: {lat: parseFloat(location[0]), lng: parseFloat(location[1])},
         map,
         icon: image,
-        //shape: shape,
+        shape: shape,
         title: "Player",
-        zIndex: 5,
+        zIndex: 5// Z轴位置，是否显示在其他元素上层
     });
 }
 
