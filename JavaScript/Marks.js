@@ -12,27 +12,29 @@ async function getPlayerLocation() {
 }
 
 function setPlayerMark(map) {
-    const player = getPlayerLocation()
     const image = {
         url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
         size: new google.maps.Size(20, 32),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(0, 32),
     };
+    /*
     const shape = {
         coords: [1, 1, 1, 20, 18, 20, 18, 1],
         type: "poly",
     };
-    /*
+
+     */
+
+    const location = getPlayerLocation()
     new google.maps.Marker({
-            position: { lat: beach[1], lng: beach[2] }
-        },
+        position: {lat: 80, lng: 80},
         map,
         icon: image,
-        shape: shape,
-        title: beach[0],
-        zIndex: beach[3],
-     */
+        //shape: shape,
+        title: "Player",
+        zIndex: 3,
+    });
 }
 
 

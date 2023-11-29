@@ -2,7 +2,7 @@ import json
 from flask import Flask, Response
 from flask_cors import CORS
 
-from Python.Classes import player1
+from Python.Classes import player1, Tool
 from Python.DatabaseConnection import getResultList
 
 app = Flask(__name__)
@@ -31,9 +31,10 @@ def airports():
 # Get player location
 @app.route('/player_location')
 def player_location():
-    a = player1.current_location
-
-    json_response = json.dumps(a)
+    lat = str(Tool.location_finder(player1.current_location)[0])
+    lon = str(Tool.location_finder(player1.current_location)[1])
+    response = [lat, lon]
+    json_response = json.dumps(response)
 
     return json_response
 
