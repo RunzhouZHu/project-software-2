@@ -2,6 +2,7 @@
 from Python.DatabaseConnection import getResultList
 
 
+# Class of player
 # -------------------------------------------------------------------
 class Player:
     sql = "select current_location from player;"
@@ -15,8 +16,19 @@ class Player:
         pass
 
 
-# --------------------------------------------------------------
-# test
 player1 = Player(1, 1000)
-a = player1.current_location
+player1.current_location = "ZWWW"
+
+
+# ---------------------------------------------------------------
+# Tool class
+class Tool():
+    @staticmethod
+    def location_finder(ICAO):
+        sql = "select lat_deg, lon_deg from airport where airport_ident = '" + ICAO + "';"
+        result = getResultList(sql)[0]
+        return result
+
+
+a = Tool.location_finder("ZWWW")
 print(a)

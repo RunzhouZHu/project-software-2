@@ -2,7 +2,6 @@ import mysql.connector
 import GetPropertiesHandler as p
 import os
 
-
 path = os.path.join('../config', 'mysql.properties')
 properties = p.getProperties(path)
 connection = mysql.connector.connect(
@@ -12,7 +11,7 @@ connection = mysql.connector.connect(
     user=properties.get('user'),
     password=properties.get('password'),
     autocommit=True
-);
+)
 
 
 def getResultList(sql):

@@ -1,4 +1,3 @@
-import mysql.connector
 import json
 from flask import Flask, Response
 from flask_cors import CORS
@@ -14,7 +13,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # Get airports
 @app.route('/Airports')
 def airports():
-    sql = "select airport_name, lat_deg, lon_deg from airport_flight_game;"
+    sql = "select airport_name, lat_deg, lon_deg from airport;"
     result = getResultList(sql)
     response = []
     for i in result:
@@ -33,6 +32,7 @@ def airports():
 @app.route('/player_location')
 def player_location():
     a = player1.current_location
+
     json_response = json.dumps(a)
 
     return json_response

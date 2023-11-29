@@ -24,7 +24,7 @@ async function initMap() {
     }
 
     // Set costume markers
-    setMarkers(map);
+    setPlayerMark(map);
 }
 
 
