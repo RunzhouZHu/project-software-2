@@ -5,8 +5,8 @@ async function initMap() {
 
         // 限制缩放
         zoom: 8,
-        //minZoom: 3,
-        //maxZoom: 5,
+        minZoom: 3,
+        maxZoom: 5,
 
         //
         mapTypeId: 'satellite',
