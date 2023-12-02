@@ -22,7 +22,7 @@ player1.current_location = "ZWWW"
 
 # ---------------------------------------------------------------
 # Tool class
-class Tool():
+class Tool:
     @staticmethod
     def location_finder(ICAO):
         sql = "select lat_deg, lon_deg from airport where airport_ident = '" + ICAO + "';"
