@@ -22,6 +22,16 @@ async function initMap() {
             title: a[i].airport_name, // 可选的标记标题
             zIndex: 3// Z轴位置，是否显示在其他元素上层
         });
+
+        // Create an info window to share between markers.
+        const infoWindow = new google.maps.InfoWindow();
+
+        // Add marker click listener, 明明Google自己的网页里用的就是这个方法，为啥显示弃用了呢？？（＃￣～￣＃）
+        marker.addListener("click", () => {
+            infoWindow.close(); // 打开其他窗口后，原有的窗口关不了
+            infoWindow.setContent(marker.getTitle());
+            infoWindow.open(marker.getMap(), marker);
+        })
     }
 
     // Set costume markers

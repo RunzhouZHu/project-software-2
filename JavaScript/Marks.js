@@ -11,6 +11,8 @@ async function getPlayerLocation() {
     }
 }
 
+
+// Set player marker on the map
 async function setPlayerMark(map) {
     const image = {
         url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
@@ -33,6 +35,15 @@ async function setPlayerMark(map) {
         zIndex: 5// Z轴位置，是否显示在其他元素上层
     });
 }
+
+// Update player status, 样例中玩家位置变化和任务系统是在JavaScript中
+
+
+
+
+
+
+
 
 
 
