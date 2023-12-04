@@ -1,6 +1,6 @@
 import json
-from flask import Flask, request, Response, render_template
-import Python.DatebaseConnectionBySQLAlchemy as db
+from flask import Flask
+import Python.configration.DatebaseConnectionBySQLAlchemy as db
 import jsonpickle as jsons
 
 app = Flask(__name__);

@@ -1,13 +1,12 @@
-import json
 import os
-from Python import GetPropertiesHandler as p
-import pymysql
+from Python.configration import GetPropertiesHandler as p
 import jsonpickle as jsons
 
-path = os.path.join('../config/mysql.properties');
+path = os.path.join('../../config/mysql.properties');
 properties = p.getProperties(path);
 
-from sqlalchemy import create_engine,Table,Column,Integer,String,MetaData,ForeignKey
+from sqlalchemy import create_engine
+
 # engine= create_engine("mysql+pymysql://root:123456@localhost:3306/flight_game",echo=True)
 engine= create_engine(f'mysql+pymysql://{properties.get("user")}:{properties.get("password")}@{properties.get("host")}:{properties.get("port")}/{properties.get("database")}',echo=True)
 

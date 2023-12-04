@@ -1,5 +1,5 @@
-import mysql.connector
-import GetPropertiesHandler as p
+import mysql
+from Python.configration import GetPropertiesHandler as p
 import os
 
 path = os.path.join('../config', 'mysql.properties')
