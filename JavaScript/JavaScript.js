@@ -19,8 +19,8 @@ async function initMap() {
         const marker = new google.maps.Marker({
             position: {lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)}, // 设置标记的经纬度
             map: map,
-            title: a[i].airport_name, // 可选的标记标题
-            zIndex: 3// Z轴位置，是否显示在其他元素上层
+            title: a[i].airport_name,
+            zIndex: 3
         });
 
         // Create an info window to share between markers.
@@ -35,7 +35,7 @@ async function initMap() {
     }
 
     // Set costume markers
-    setPlayerMark(map);
+    await setPlayerMark(map);
 }
 
 

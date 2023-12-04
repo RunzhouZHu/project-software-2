@@ -3,20 +3,105 @@
     position: absolute;
     height: 100vh;
     width: 100%;
-    z-index: 1; /* 确保地图在其他内容下方 */
+    z-index: 1;
 }
 
-/* 设置其他内容容器 */
-#content {
-    position: relative;
-    z-index: 2; /* 确保其他内容位于地图下方 */
-    background-color: rgba(255, 255, 255, 0); /* 示例内容背景颜色 */
-    padding: 0;
-    margin: 0;
+/* User info */
+#user_info article {
+    position: absolute;
+    z-index: 3;
+    background-color: rgba(255, 255, 255, 0);
+    color: azure;
+
+    font-size: large;
+    line-height: 150%;
+    top: 5%;
+    left: 6%;
 }
 
-#content img {
+#user_info img {
     position: absolute;
     /*height: 10vh;*/
     width: 100%;
+    z-index: 2;
+}
+
+/* Shop Icon */
+#shop_icon {
+    position: absolute;
+    left: 20rem;
+    z-index: 2;
+}
+
+#shop_icon img {
+    position: absolute;
+    height: 5rem;
+    z-index: 2;
+}
+
+#shop_icon p {
+    color: aliceblue;
+    z-index: 5;
+}
+
+/* Shop page */
+#shop {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    z-index: 2;
+}
+
+#shop img {
+    position: absolute;
+    height: 20rem;
+}
+
+#shop article {
+    position: relative;
+    top: 5rem;
+
+    color: aliceblue;
+}
+
+/* Tasks */
+#tasks {
+    position: absolute;
+    top: 30%;
+    left: 2%;
+    z-index: 2;
+}
+
+#tasks img {
+    position: absolute;
+    height: 28rem;
+}
+
+#tasks article {
+    position: absolute;
+    color: aliceblue;
+
+    top: 4rem;
+    left: 2rem;
+}
+
+/* Task info */
+#task_info {
+    position: absolute;
+    top: 40%;
+    left: 25%;
+    z-index: 2;
+}
+
+#task_info img {
+    position: absolute;
+    height: 25rem;
+}
+
+#task_info article {
+    position: absolute;
+    color: aliceblue;
+
+    top: 4rem;
+    left: 20rem;
 }
