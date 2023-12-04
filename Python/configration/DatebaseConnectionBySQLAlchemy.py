@@ -1,6 +1,7 @@
 import os
 from Python.configration import GetPropertiesHandler as p
 import jsonpickle as jsons
+import pymysql
 
 path = os.path.join('../../config/mysql.properties');
 properties = p.getProperties(path);
