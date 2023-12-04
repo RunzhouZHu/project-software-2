@@ -1,4 +1,4 @@
-class task:
+class Task:
     def __init__(self, task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_sort, version, next_task, before_task):
         self.task_id = task_id
         self.task_name = task_name
