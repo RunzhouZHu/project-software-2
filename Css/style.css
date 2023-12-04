@@ -50,6 +50,8 @@
     top: 20%;
     left: 30%;
     z-index: 2;
+
+    display: none;
 }
 
 #shop img {
@@ -91,6 +93,8 @@
     top: 40%;
     left: 25%;
     z-index: 2;
+
+    display: none;
 }
 
 #task_info img {
@@ -104,4 +108,30 @@
 
     top: 4rem;
     left: 20rem;
+}
+
+/* Version tasks */
+#version_tasks {
+    position: absolute;
+    top: 20%;
+    left: 35%;
+
+    z-index: 2;
+}
+
+#version_tasks img {
+    position: absolute;
+    height: 35rem;
+}
+
+/* Version tasks icon */
+#version_tasks_icon {
+    position: absolute;
+    left: 60%;
+
+    z-index: 2;
+}
+
+#version_tasks_icon img {
+    height: 8rem;
 }
