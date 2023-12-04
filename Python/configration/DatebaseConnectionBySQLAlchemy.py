@@ -19,8 +19,7 @@ def getResultList(sql):
     try:
         result = engine.execute(sql);
         keys = result.keys();
-        values = list(result);
-        results = [dict(zip(keys, val)) for val in values];
+        results = [dict(zip(keys, val)) for val in result];
     except Exception as e:
         return jsons.dumps({"error":0, "information": e})
     return results;
