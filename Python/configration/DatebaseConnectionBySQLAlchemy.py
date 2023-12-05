@@ -2,11 +2,11 @@ import os
 from Python.configration import GetPropertiesHandler as p
 import jsonpickle as jsons
 import pymysql
+from sqlalchemy import create_engine
 
 path = os.path.join('../../config/mysql.properties');
 properties = p.getProperties(path);
 
-from sqlalchemy import create_engine
 
 # engine= create_engine("mysql+pymysql://root:123456@localhost:3306/flight_game",echo=True)
 engine= create_engine(f'mysql+pymysql://{properties.get("user")}:{properties.get("password")}@{properties.get("host")}:{properties.get("port")}/{properties.get("database")}',echo=True)
@@ -30,7 +30,6 @@ def getResultList(sql):
 def oprateData(sql):
     try:
         connection.execute(sql);
-        connection.commit();
     except Exception as e:
         return jsons.dumps({"error":e});
     return jsons.dumps({"success": 1});

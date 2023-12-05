@@ -18,7 +18,12 @@ def aaa():
 
 @app.route("/dd")
 def ddd():
-    t = db.getResultList("select * from airport");
+    t = db.getResultList("select * from airplane");
     return jsons.dumps({"airport":t});
+
+@app.route("/update")
+def kkk():
+    t = db.oprateData("insert into airplane(airplane_type_name,fuel_volume, fuel_per_kilo) values('name111', 9999,9999)")
+    return t;
 
 app.run(port=80);
