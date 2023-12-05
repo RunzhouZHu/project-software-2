@@ -1,8 +1,10 @@
 from flask import Flask,request,g
 from Python.sever.FlyYang import yyApp
 from Python.sever.FlyZzy import zzyApp
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # register file
 app.register_blueprint(yyApp)
