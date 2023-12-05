@@ -23,7 +23,7 @@ def getResultList(sql):
         results = [dict(zip(keys, val)) for val in result];
         if(len(results) == 1) : return results[0];
     except Exception as e:
-        return jsons.dumps({"error":0, "information": e})
+        return jsons.dumps({'result':"error", "information": e})
     return results;
 
 
@@ -32,7 +32,7 @@ def oprateData(sql):
         connection.execute(sql);
     except Exception as e:
         return jsons.dumps({"error":e});
-    return jsons.dumps({"success": 1});
+    return jsons.dumps({'result':"success"});
 
 
 
