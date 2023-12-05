@@ -29,7 +29,7 @@
 /* Shop Icon */
 #shop_icon {
     position: absolute;
-    left: 20rem;
+    left: 20%;
     z-index: 2;
 }
 
@@ -59,7 +59,7 @@
     height: 20rem;
 }
 
-#shop article {
+#shop p {
     position: relative;
     top: 5rem;
 
@@ -79,8 +79,8 @@
     height: 28rem;
 }
 
-#tasks article {
-    position: absolute;
+#tasks p {
+    position:relative;
     color: aliceblue;
 
     top: 4rem;
@@ -102,12 +102,14 @@
     height: 25rem;
 }
 
-#task_info article {
+#task_info article{
     position: absolute;
     color: aliceblue;
 
     top: 4rem;
     left: 20rem;
+
+    width: 25rem;
 }
 
 /* Version tasks */
