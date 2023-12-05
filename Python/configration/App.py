@@ -1,5 +1,5 @@
 from flask import Flask,request,g
-from Python.sever.Test import selfApp
+from Python.sever.FlyYang import selfApp
 
 app = Flask(__name__)
 
