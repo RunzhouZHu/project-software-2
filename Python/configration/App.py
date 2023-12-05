@@ -13,9 +13,6 @@ def before_request():
     param = request.args.get('paramToBack');
     g.paramToBack = eval(param);
 
-# @app.route('/')
-# def index():
-#     return 'Hello, World!'
 
 
 if __name__ == '__main__':
