@@ -1,18 +1,19 @@
-from flask import Flask,request
-from Python.sever.Test import myServer
+from flask import Flask,request,g
+from Python.sever.Test import selfApp
 
 app = Flask(__name__)
 
 # register file
-app.register_blueprint(myServer)
+app.register_blueprint(selfApp)
 
 @app.before_request
 def before_request():
-    param_value = request.args.get('param_name')
+    param = request.args.get('paramToBack');
+    g.paramToBack = eval(param);
 
-@app.route('/')
-def index():
-    return 'Hello, World!'
+# @app.route('/')
+# def index():
+#     return 'Hello, World!'
 
 
 if __name__ == '__main__':

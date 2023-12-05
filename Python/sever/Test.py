@@ -2,14 +2,15 @@ import json
 from flask import Flask
 import Python.configration.DatebaseConnectionBySQLAlchemy as db
 import jsonpickle as jsons
-from flask import Blueprint
+from flask import Blueprint,g
 
-myServer = Blueprint('myServer', __name__)
+selfApp = Blueprint('selfApp', __name__)
 
 
-@myServer.route('/')
+@selfApp.route('/dd')
 def other_route():
-    return 'This is another route!'
+    param_value = g.get("paramToBack",None)
+    return param_value
 
 # @app.route("/ttt")
 # def ttt():
