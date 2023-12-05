@@ -5,7 +5,6 @@ import jsonpickle as jsons
 from flask import Blueprint,g
 
 selfApp = Blueprint('selfApp', __name__)
-
 #
 @selfApp.route('/dd')
 def other_route():
