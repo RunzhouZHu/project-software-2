@@ -1,10 +1,12 @@
 from flask import Flask,request,g
-from Python.sever.FlyYang import selfApp
+from Python.sever.FlyYang import yyApp
+from Python.sever.FlyZzy import zzyApp
 
 app = Flask(__name__)
 
 # register file
-app.register_blueprint(selfApp)
+app.register_blueprint(yyApp)
+app.register_blueprint(zzyApp)
 
 @app.before_request
 def before_request():

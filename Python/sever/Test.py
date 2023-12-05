@@ -5,11 +5,11 @@ import jsonpickle as jsons
 from flask import Blueprint,g
 
 selfApp = Blueprint('selfApp', __name__)
-#
-@selfApp.route('/dd')
-def other_route():
-    param_value = g.get("paramToBack",None)
-    return param_value
+
+# @selfApp.route('/dd')
+# def other_route():
+#     param_value = g.get("paramToBack",None)
+#     return param_value
 
 # @app.route("/ttt")
 # def ttt():
