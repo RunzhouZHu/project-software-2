@@ -1,9 +1,9 @@
 import Python.configration.DatebaseConnectionBySQLAlchemy as db
-from flask import Blueprint,g
+from flask import Blueprint, g
 from geopy import distance
 
+zzyApp = Blueprint('zzyApp', __name__)
 
-zzyApp= Blueprint('zzyApp', __name__)
 
 # settle  fly
 # param {paramToBack:
@@ -20,10 +20,10 @@ def updatePlayer():
     task_amount = str(param_value['task_amount']);
     player_pic = str(param_value['player_pic']);
 
-    sql=(f"UPDATE player set current_location='{'current_location' if current_location == '' else current_location}',"
-         f"current_amount = current_amount+{'0' if task_amount == '' else task_amount}"
-         f" {'' if player_pic == '' else f',player_pic = {player_pic}'}"
-         f" where player_id ={player_id}");
+    sql = (f"UPDATE player set current_location='{'current_location' if current_location == '' else current_location}',"
+           f"current_amount = current_amount+{'0' if task_amount == '' else task_amount}"
+           f" {'' if player_pic == '' else f',player_pic = {player_pic}'}"
+           f" where player_id ={player_id}");
     return db.oprateData(sql);
 
 
@@ -39,7 +39,7 @@ def updatePlayerTask():
     player_id = param_value['player_id'];
     task_id = param_value['task_id'];
 
-    sql=f"UPDATE player_task set is_complete = 1 where player_id ={player_id} and task_id={task_id}";
+    sql = f"UPDATE player_task set is_complete = 1 where player_id ={player_id} and task_id={task_id}";
     return db.oprateData(sql);
 
 
@@ -58,42 +58,45 @@ def updatePlayerAirplane():
     current_fuel_volume = param_value['current_fuel_volume'];
     is_current_airplane = param_value['is_current_airplane'];
 
-    sql=(f"UPDATE player_airplane set "
-         f"current_fuel_volume = current_fuel_volume+{'0' if current_fuel_volume == '' else current_fuel_volume}, "
-         f"is_current_airplane = {'is_current_airplane' if is_current_airplane == '' else is_current_airplane} "
-         f"where player_id = {player_id} and airplane_id = {airplane_id}");
+    sql = (f"UPDATE player_airplane set "
+           f"current_fuel_volume = current_fuel_volume+{'0' if current_fuel_volume == '' else current_fuel_volume}, "
+           f"is_current_airplane = {'is_current_airplane' if is_current_airplane == '' else is_current_airplane} "
+           f"where player_id = {player_id} and airplane_id = {airplane_id}");
     return db.oprateData(sql);
+
+
 # -----------------------------------------------------------------------------------------------
 
 @zzyApp.route("/getAirport")
 def getAirport():
     param_value = g.get("paramToBack", None);
     airport_id = param_value['airport_id'];
-    sql=(f"select airport_id,airport_ident,airport_name,airport_type,lat_deg,lon_deg,country_name,iso_country from airport "
-         f"{'' if airport_id == '' else f'where airport_id = {airport_id}'}");
+    sql = (
+        f"select airport_id,airport_ident,airport_name,airport_type,lat_deg,lon_deg,country_name,iso_country from airport "
+        f"{'' if airport_id == '' else f'where airport_id = {airport_id}'}");
     result = db.getResultList(sql)
-    return {'result':result};
-
+    return {'result': result};
 
 
 @zzyApp.route("/getAirplaneByNotPlayer")
 def getAirplaneByNotPlayer():
     param_value = g.get("paramToBack", None);
     player_id = param_value['player_id'];
-    sql=(f"select airplane_id,airplane_type_name,fuel_volume,fuel_per_kilo,airplane_pic from airplane a where a.airplane_id not in "
-         f"(select pa.airplane_id from player_airplane pa left join player p on p.player_id = pa.player_id where p.player_id = {player_id})");
+    sql = (
+        f"select airplane_id,airplane_type_name,fuel_volume,fuel_per_kilo,airplane_pic from airplane a where a.airplane_id not in "
+        f"(select pa.airplane_id from player_airplane pa left join player p on p.player_id = pa.player_id where p.player_id = {player_id})");
     result = db.getResultList(sql)
-    return {'result':result};
-
+    return {'result': result};
 
 
 @zzyApp.route("/getPlayerAirplane")
 def getPlayerAirplane():
     param_value = g.get("paramToBack", None);
     player_id = param_value['player_id'];
-    sql=f"select * from player_airplane where airplane_id = {player_id}";
+    sql = f"select * from player_airplane where airplane_id = {player_id}";
     result = db.getResultList(sql)
-    return {'result':result};
+    return {'result': result};
+
 
 @zzyApp.route("/checkFuelIsEnough")
 def checkFuelIsEnough():
@@ -109,7 +112,7 @@ def checkFuelIsEnough():
            f"where pa.player_id = {player_id} and pa.is_current_airplane = 1");
     res = db.getResultList(sql)
     result = False if (res['current_fuel_volume'] / res['fuel_per_kilo']) < distance else True;
-    return {'result':result};
+    return {'result': result};
 
 
 # http://127.0.0.1/checkPlayerTaskEndIsCurrentAirportId?paramToBack={'player_id': 1, 'airport_id': 1}
@@ -124,10 +127,11 @@ def checkPlayerTaskEndIsCurrentAirportId():
     for i in res:
         if i['end'] == airport_id:
             result.append(i);
-    return {'result':result};
+    return {'result': result};
+
 
 # Calculate distance
-def claculateDistance(start_lon, start_lat,end_lat,end_lon):
+def claculateDistance(start_lon, start_lat, end_lat, end_lon):
     fromLat = start_lat
     fromLog = start_lon
     toLat = end_lat
