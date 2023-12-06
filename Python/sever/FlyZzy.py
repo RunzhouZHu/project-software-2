@@ -142,3 +142,12 @@ def claculateDistance(start_lon, start_lat, end_lat, end_lon):
     # Get distance from two airports by latitude and longitude
     distanceCount = distance.distance(fromAirport, toAirport).kilometers;
     return distanceCount;
+
+
+@zzyApp.route("/checkUserInfo")
+def checkUserInfo():
+    param_value = g.get("paramToBack", None)
+    player_name = param_value['player_name']
+    sql =  f"select a.player_id, a.player_name,a.player_pic,a.current_location,a.current_amount,a.current_mileage,a.current_version,b.airplane_id,b.current_fuel_volume,c.airplane_id,c.airplane_type_name,c.fuel_per_kilo,c.fuel_volume,c.airplane_pic from player a left join  player_airplane b on a.player_id=b.player_id left join airplane c on b.airplane_id=c.airplane_id WHERE a.player_name='{player_name}'"
+    res = db.getResultList(sql)
+    return {"result": res}
