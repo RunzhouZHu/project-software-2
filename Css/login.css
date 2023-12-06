@@ -21,7 +21,7 @@ body {
 #login article form {
     position: absolute;
     top: 22.87rem;
-    left: 22.8rem;
+    left: 23.3rem;
 
     z-index: 2;
 }
@@ -29,10 +29,24 @@ body {
 #login article form input {
     height: 2rem;
     width: 16rem;
+
+    background-color: transparent;
+    border: 0;
+
+    color: aliceblue;
+    font-size: x-large;
+
 }
 
 #login article img {
     position: absolute;
 
     z-index: 1;
+}
+
+#login article #button {
+    position: absolute;
+
+    top: 26.6rem;
+    left: 21rem;
 }

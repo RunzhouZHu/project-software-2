@@ -42,13 +42,29 @@ for (let i=0;i<tasks_list.length;i++)
 
     task_name.addEventListener('click', function (evt) {
 
+        // Show task info window
         task_info.innerHTML ="<img src='Css/pics/task_info1.png' alt='task_info'>"+
             "<article>"
             +"<img src=" + tasks_list[i].task_pic + " alt='task_pic'/>"
             + tasks_list[i].task_text
             +"</article>"
-
         task_info.style.display = 'block';
+
+        // Show task button
+        const button = document.createElement('img')
+        button.src = "Css/pics/button.png";
+        button.alt = "button";
+        button.style.height = "2rem";
+        button.style.top = "18rem";
+        button.style.left = "37rem";
+        task_info.appendChild(button)
+
+        button.addEventListener('mouseover', function (evt) {
+            button.src = "Css/pics/button1.png"
+        })
+        button.addEventListener('mouseout', function (evt) {
+            button.src = "Css/pics/button.png"
+        })
     })
 }
 
@@ -71,6 +87,15 @@ version_tasks_icon.addEventListener('click', function (evt) {
             +"</article>"
 
     version_tasks.style.display = 'block';
+
+    // Show task button
+    const button = document.createElement('img')
+    button.src = "Css/pics/version_button.gif";
+    button.alt = "button";
+    button.style.height = "6rem";
+    button.style.top = "32rem";
+    button.style.left = "8rem";
+    version_tasks.appendChild(button)
 })
 
 version_tasks.addEventListener('click', function (evt) {
