@@ -1,4 +1,4 @@
-import mysql
+import mysql.connector
 from Python.configration import GetPropertiesHandler as p
 import os
 
