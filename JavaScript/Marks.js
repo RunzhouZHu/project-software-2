@@ -1,3 +1,39 @@
+function mapMarker(lat, lon, title, map) {
+    // 在地图上添加标记
+    return new google.maps.Marker({
+        position: {lat: parseFloat(lat), lng: parseFloat(lon)}, // 设置标记的经纬度
+        map: map,
+        title: title,
+        zIndex: 3
+    })
+}
+
+// Set player marker on the map
+function setPlayerMark(map, lat, lon) {
+    const image = {
+        url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+        size: new google.maps.Size(20, 32),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(0, 32),
+    };
+    const shape = {
+        coords: [1, 1, 1, 20, 18, 20, 18, 1],
+        type: "poly",
+    };
+    return  new google.maps.Marker({
+        position: {lat: parseFloat(lat), lng: parseFloat(lon)},
+        map,
+        icon: image,
+        shape: shape,
+        title: "Player",
+        zIndex: 5// Z轴位置，是否显示在其他元素上层
+    });
+}
+
+
+
+//
+/*
 //fetch the location of player
 async function getPlayerLocation() {
     console.log('asynchronous download begins');
@@ -37,16 +73,7 @@ async function setPlayerMark(map) {
 }
 
 // Update player status, 样例中玩家位置变化和任务系统是在JavaScript中
-
-
-
-
-
-
-
-
-
-
+*/
 
 
 /*

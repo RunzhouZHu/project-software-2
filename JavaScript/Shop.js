@@ -32,40 +32,42 @@ const shop_list = [{
     },
 ]
 
+function shopInitial() {
+    // Shop Page
+    const shop = document.getElementById('shop');
 
-// Shop Page
-const shop = document.getElementById('shop');
+    // Shop Icon
+    const shop_icon = document.getElementById('shop_icon');
 
-// Shop Icon
-const shop_icon = document.getElementById('shop_icon');
+    const shop_page = document.createElement('article')
 
-const shop_page = document.createElement('article')
+    shop.appendChild(shop_page)
 
-shop.appendChild(shop_page)
+    for (let i = 0; i < shop_list.length; i++) {
+        const goods = document.createElement('figure');
+        goods.innerHTML = "<img src=" +
+            shop_list[i].plane_pic +
+            " alt='plane_pic'>" +
+            "<figcaption>" + shop_list[i].airplane_type_name + "</figcaption>"
 
-for (let i = 0; i < shop_list.length; i++) {
-    const goods = document.createElement('figure');
-    goods.innerHTML = "<img src=" +
-        shop_list[i].plane_pic +
-        " alt='plane_pic'>" +
-        "<figcaption>" + shop_list[i].airplane_type_name + "</figcaption>"
+        const text = document.createElement('p');
+        text.innerText = shop_list[i].plane_text;
 
-    const text = document.createElement('p');
-    text.innerText = shop_list[i].plane_text;
+        goods.appendChild(text)
 
-    goods.appendChild(text)
-
-    shop_page.appendChild(goods)
+        shop_page.appendChild(goods)
 
 
+    }
+
+    shop_icon.addEventListener('click', function (evt) {
+        shop.style.display = 'block';
+    })
+
+    shop.addEventListener('click', function (evt) {
+        shop.style.display = 'none';
+    })
 }
 
-shop_icon.addEventListener('click', function (evt) {
-    shop.style.display = 'block';
-})
-
-shop.addEventListener('click', function (evt) {
-    shop.style.display = 'none';
-})
 
 

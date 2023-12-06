@@ -102,3 +102,9 @@ version_tasks.addEventListener('click', function (evt) {
     version_tasks.style.display = 'none';
 })
 
+
+
+//Task check
+function taskCheck(){
+
+}

@@ -1,33 +1,36 @@
+//Game initial
+// Creat Map
 async function initMap() {
     // 创建一个地图对象
     const map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 50, lng: 50}, // 设置初始中心点的经纬度
 
         // 限制缩放
-        zoom: 8,
+        zoom: 4,
         minZoom: 3,
-        maxZoom: 5,
+        maxZoom: 6,
 
         //
         mapTypeId: 'satellite',
     });
 
-    // Get airPorts
-    const a = await getAirports()
+    //Initial data
+    let player_location = await getAPI('http://127.0.0.1:5000/player_location', 'player location')
+    //a for airports
+    const a = await getAPI('http://127.0.0.1:5000/Airports', 'airports')
+
+    // Set costume markers
+    let playerMarker = setPlayerMark(map, player_location[0], player_location[1]);
+    // Get airports and mark them on the map
+
     for (let i = 0; i < a.length; i++) {
         // 在地图上添加标记
-        const marker = new google.maps.Marker({
-            position: {lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)}, // 设置标记的经纬度
-            map: map,
-            title: a[i].airport_name,
-            zIndex: 3
-        });
+        const marker = mapMarker(a[i].lat_deg, a[i].lon_deg, a[i].airport_name, map)
 
         // Create an info window to share between markers.
         const info = "<h3>" + a[i].airport_name + "</h3>" +
             "<p>" + 'distance: ' + "</p>" +
             "<p>" + 'consume: ' + "</p>"
-
 
         const infoWindow = new google.maps.InfoWindow({
             content: info,
@@ -39,29 +42,21 @@ async function initMap() {
             infoWindow.open(marker.getMap(), marker);
         })
 
-        marker.addListener('mouseout', () =>{
+        marker.addListener('mouseout', () => {
             infoWindow.close();
         })
 
         //
-    }
+        marker.addListener('click', function (evt) {
+            playerMarker.setMap(null)
+            player_location = [a[i].lat_deg, a[i].lon_deg]
+            playerMarker = setPlayerMark(map, a[i].lat_deg, a[i].lon_deg)
 
-    // Set costume markers
-    await setPlayerMark(map);
-}
-
-
-// Get airports json from python
-async function getAirports() {
-    console.log('asynchronous download begins');
-    try {
-        const response = await fetch('http://127.0.0.1:5000/Airports');
-        return await response.json()
-    } catch (error) {
-        console.log(error.message);
-    } finally {
-        console.log('asynchronous load complete');
+            map.panTo({lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)})
+            map.setZoom(6)
+        })
     }
 }
 
-//window.initMap = initMap;
+// Initial Shop
+shopInitial()
