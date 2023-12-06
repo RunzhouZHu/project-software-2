@@ -83,7 +83,7 @@ def getAirplaneByNotPlayer():
     param_value = g.get("paramToBack", None);
     player_id = param_value['player_id'];
     sql = (
-        f"select airplane_id,airplane_type_name,fuel_volume,fuel_per_kilo,airplane_pic from airplane a where a.airplane_id not in "
+        f"select airplane_id,airplane_type_name,fuel_volume,fuel_per_kilo,airplane_pic, airplane_price from airplane a where a.airplane_id not in "
         f"(select pa.airplane_id from player_airplane pa left join player p on p.player_id = pa.player_id where p.player_id = {player_id})");
     result = db.getResultList(sql)
     return {'result': result};
