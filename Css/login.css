@@ -1,0 +1,52 @@
+.container{
+    width: 100%;
+    margin: auto
+}
+
+body {
+    margin: 0;
+    background-image: url('background.gif');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+#login article {
+    position: absolute;
+    top: 20%;
+    left: 35%;
+}
+
+#login article form {
+    position: absolute;
+    top: 22.87rem;
+    left: 23.3rem;
+
+    z-index: 2;
+}
+
+#login article form input {
+    height: 2rem;
+    width: 16rem;
+
+    background-color: transparent;
+    border: 0;
+
+    color: aliceblue;
+    font-size: x-large;
+
+}
+
+#login article img {
+    position: absolute;
+
+    z-index: 1;
+}
+
+#login article #button {
+    position: absolute;
+
+    top: 26.6rem;
+    left: 21rem;
+}
