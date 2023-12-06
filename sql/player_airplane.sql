@@ -11,7 +11,7 @@
  Target Server Version : 110102
  File Encoding         : 65001
 
- Date: 02/12/2023 19:25:43
+ Date: 06/12/2023 01:51:36
 */
 
 SET NAMES utf8mb4;
@@ -28,11 +28,12 @@ CREATE TABLE `player_airplane`  (
   `current_fuel_volume` bigint(20) NULL DEFAULT NULL COMMENT 'current_fuel_volume',
   `is_current_airplane` int(255) UNSIGNED NULL DEFAULT 0 COMMENT '1yes  0no',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of player_airplane
 -- ----------------------------
-INSERT INTO `player_airplane` VALUES (1, 1, 1, 100000, 1);
+INSERT INTO `player_airplane` VALUES (1, 1, 1, 1, 1);
+INSERT INTO `player_airplane` VALUES (2, 2, 1, 100000, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
