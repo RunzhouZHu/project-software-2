@@ -6,3 +6,9 @@ button.addEventListener('mouseover', function (evt) {
 button.addEventListener('mouseout', function (evt) {
     button.src = "Css/pics/button.png"
 })
+
+
+//click event
+button.addEventListener('click', function (evt) {
+    location.href = "index.html"
+})
