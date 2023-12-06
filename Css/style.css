@@ -57,8 +57,29 @@
 #shop article {
     position: relative;
     top: 5rem;
+    left: 4rem;
 
     color: aliceblue;
+    display: flex;
+
+}
+
+#shop article figure {
+    position: relative;
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+#shop article figure img {
+    position: relative;
+    height: 5.7rem;
+}
+
+#shop article figure figcaption {
+    font-size: larger;
+}
+
+#shop article figure p {
+    width: 5rem;
 }
 
 /* Tasks */
@@ -98,20 +119,31 @@
 }
 
 #task_info article{
-    position: absolute;
+    position: relative;
     color: aliceblue;
 
-    top: 4rem;
-    left: 20rem;
+    top: 5.5rem;
+    left: 5.5rem;
 
     width: 25rem;
+
+    display: flex;
+}
+
+#task_info article p {
+    margin-left: 2rem;
+}
+
+#task_info article img {
+    position: relative;
+    height: 13rem;
 }
 
 /* Version tasks */
 #version_tasks {
     position: absolute;
     top: 20%;
-    left: 35%;
+    left: 30%;
     z-index: 2;
 
     display: none;
@@ -119,17 +151,27 @@
 
 #version_tasks img {
     position: absolute;
-    height: 35rem;
+    height: 50rem;
 }
 
 #version_tasks article {
-    position: absolute;
-    color: aliceblue;
+    position: relative;
 
-    top: 10rem;
-    left: 6rem;
+    top: 14rem;
+    left: 10rem;
 
     width: 25rem;
+}
+
+#version_tasks article img {
+    position: relative;
+    height: 12rem;
+}
+
+#version_tasks article p {
+    position: relative;
+    color: #FF00FF;
+    font-weight: bold;
 }
 
 /* Version tasks icon */
