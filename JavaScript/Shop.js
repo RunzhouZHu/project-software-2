@@ -15,23 +15,27 @@ const shop_list = [{
 
 // Shop Page
 const shop = document.getElementById('shop')
-shop.addEventListener('click', function (evt) {
-    shop.style.display = 'none';
-})
-
 
 // Shop Icon
 const shop_icon = document.getElementById('shop_icon')
-const goods = document.createElement('p')
-shop_icon.addEventListener('click', function (evt) {
 
-    shop.style.display = 'block';
+shop_icon.addEventListener('click', function (evt) {
 
     for (let i=0;i<shop_list.length;i++)
     {
-        goods.innerText =shop_list[i].airplane_type_name
-
+        const goods = document.createElement('article')
+        goods.innerHTML ="<figure>" +
+            "<img src='' alt=''>" +
+            "<figcaption>" + shop_list[i].airplane_type_name + "</figcaption>" +
+            "</figure>"
         shop.appendChild(goods)
     }
-
+    shop.style.display = 'block';
 })
+
+shop.addEventListener('click', function (evt) {
+    shop.style.display = 'none';
+    shop.innerHTML = '';
+})
+
+

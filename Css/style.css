@@ -29,25 +29,20 @@
 /* Shop Icon */
 #shop_icon {
     position: absolute;
-    left: 20%;
+    left: 80%;
     z-index: 2;
 }
 
 #shop_icon img {
     position: absolute;
-    height: 5rem;
+    height: 8rem;
     z-index: 2;
-}
-
-#shop_icon p {
-    color: aliceblue;
-    z-index: 5;
 }
 
 /* Shop page */
 #shop {
     position: absolute;
-    top: 20%;
+    top: 30%;
     left: 30%;
     z-index: 2;
 
@@ -56,10 +51,10 @@
 
 #shop img {
     position: absolute;
-    height: 20rem;
+    height: 30rem;
 }
 
-#shop p {
+#shop article {
     position: relative;
     top: 5rem;
 
@@ -117,13 +112,24 @@
     position: absolute;
     top: 20%;
     left: 35%;
-
     z-index: 2;
+
+    display: none;
 }
 
 #version_tasks img {
     position: absolute;
     height: 35rem;
+}
+
+#version_tasks article {
+    position: absolute;
+    color: aliceblue;
+
+    top: 10rem;
+    left: 6rem;
+
+    width: 25rem;
 }
 
 /* Version tasks icon */

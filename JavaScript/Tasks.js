@@ -13,7 +13,24 @@ const tasks_list = [{
     },
 ]
 
-// Tasks
+const version_tasks_list = [{
+    'task_id': 1,
+    'task_name': 'example_version_task_name1',
+    'task_text': '<p>text example task text example task text example task text example task text example task1111111</p>',
+    'task_others': 'jjsjsjsjjs'
+},
+    {
+        'task_id': 2,
+        'task_name': 'example_version_task_name2',
+        'task_text': '<p>example task text example task text example task text example task text example task22222222</p>',
+        'task_others': 'jjsjsjsjjs'
+    },
+]
+
+
+
+
+// Tasks, task names
 const task_info = document.getElementById('task_info')
 const tasks = document.getElementById('tasks')
 
@@ -45,6 +62,12 @@ task_info.addEventListener('click', function (evt) {
 const version_tasks = document.getElementById('version_tasks')
 const version_tasks_icon = document.getElementById('version_tasks_icon')
 version_tasks_icon.addEventListener('click', function (evt) {
+
+    version_tasks.innerHTML = "<img src='Css/pics/version_task.gif' alt='version task'>'"+
+            "<article>"+ version_tasks_list[1].task_text
+            +"<img src='Css/pics/task_pic.png' alt='task_pic'>"
+            +"</article>"
+
     version_tasks.style.display = 'block';
 })
 
