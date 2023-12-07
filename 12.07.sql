@@ -14,23 +14,10 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
--- 导出 flight_game 的数据库结构
-CREATE DATABASE IF NOT EXISTS `flight_game` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
-USE `flight_game`;
-
--- 导出  表 flight_game.airport 结构
-CREATE TABLE IF NOT EXISTS `airport` (
-  `airport_id` int(11) NOT NULL AUTO_INCREMENT,
-  `airport_ident` varchar(255) DEFAULT NULL,
-  `airport_name` varchar(255) DEFAULT NULL,
-  `airport_type` varchar(255) DEFAULT NULL,
-  `lat_deg` decimal(20,10) DEFAULT NULL,
-  `lon_deg` decimal(20,10) DEFAULT NULL,
-  `country_name` varchar(255) DEFAULT NULL,
-  `iso_country` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`airport_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=131071 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+-- 正在导出表  flight_game.airplane 的数据：~0 rows (大约)
+DELETE FROM `airplane`;
+INSERT INTO `airplane` (`airplane_id`, `airplane_type_name`, `fuel_volume`, `fuel_per_kilo`) VALUES
+	(1, 'new_plane', '100000', '10');
 
 -- 正在导出表  flight_game.airport 的数据：~29 rows (大约)
 DELETE FROM `airport`;
@@ -65,16 +52,29 @@ INSERT INTO `airport` (`airport_id`, `airport_ident`, `airport_name`, `airport_t
 	(27, 'ZUTF', 'Chengdu Tianfu International Airport', 'large_airport', 30.3125200000, 104.4412840000, 'China', 'CN'),
 	(28, 'ZWWW', 'Ürümqi Diwopu International Airport', 'large_airport', 43.9071006775, 87.4741973877, 'China', 'CN');
 
--- 导出  表 flight_game.player 结构
-CREATE TABLE IF NOT EXISTS `player` (
-  `id` int(11) DEFAULT NULL,
-  `current_location` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
 -- 正在导出表  flight_game.player 的数据：~0 rows (大约)
 DELETE FROM `player`;
 INSERT INTO `player` (`id`, `current_location`) VALUES
 	(1, 'ZWWW');
+
+-- 正在导出表  flight_game.player_airplane 的数据：~0 rows (大约)
+DELETE FROM `player_airplane`;
+INSERT INTO `player_airplane` (`id`, `player_id`, `airplane_id`, `current_fuel_volume`, `is_current_airplane`) VALUES
+	(1, 1, 1, 100000, 1);
+
+-- 正在导出表  flight_game.player_task 的数据：~0 rows (大约)
+DELETE FROM `player_task`;
+
+-- 正在导出表  flight_game.task 的数据：~7 rows (大约)
+DELETE FROM `task`;
+INSERT INTO `task` (`task_id`, `task_name`, `task_first_location`, `start`, `end`, `task_team_sign`, `task_amount`, `task_mileage`, `task_content`, `task_sort`, `version`, `next_task`, `before_task`) VALUES
+	(1, 'my first airplane', 'EFHK', 'EFHK', 'EDDB', '1', 100, 10, '<p>aaaaaaaaaaaaaaaaaaaaaa</p>', 1, '1', 2, 0),
+	(2, 'my first airplane2', 'EDDB', 'EDDN', 'LTFM', '1', 100, 10, '<p>bbbbbbbbbbbbbbbbbbbbbb</p>', 2, '1', 3, 2),
+	(3, 'my first airplane3', 'LTFM', 'LTFM', 'OMDB', '1', 100, 10, '<p>ccccccccccccccccccccccccccc</p>', 3, '1', 4, 3),
+	(4, 'my first airplane4', 'OMDB', 'OMDB', 'ZUTF', '1', 100, 10, '<p>ddddddddddddddddddddddd</p>', 4, '1', 0, 4),
+	(5, 'next step', 'VTBS', 'YSSY', 'NZWN', '2', 100, 10, '<p>eeeeeeeeeeeeeeeeeeeeeeee</p>', 1, '1', 6, 0),
+	(6, 'next step2', 'NZWN', 'ZSPD', 'ZBAD', '2', 100, 10, '<p>ffffffffffffffffffffffffffffffffffff</p>', 2, '1', 0, 6),
+	(7, 'new', 'EGLL', 'KJFK', 'KMDW', '3', 1000, 10, '<p>gggggggggggggggggggggggg</p>', 1, '2', 8, 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
