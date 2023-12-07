@@ -1,8 +1,13 @@
-function fly()
+// fly
+function fly(lat,lon,playerMarker,player_location,map)
 {
-    GoogleMap.setOnMarkerClickListener(OnMarkerClickListener)
 }
 
+// Open confirm window
+function flyConfirm()
+{
+
+}
 
 //Display player info
 const player_name = document.getElementById("player_name")

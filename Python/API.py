@@ -4,6 +4,8 @@ from flask_cors import CORS
 
 from Python.Classes import player1, Tool
 from Python.DatabaseConnection import getResultList
+# from Python.sever.FlyYang import yyApp
+# from Python.sever.FlyZzy import zzyApp
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -13,14 +15,15 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # Get airports
 @app.route('/Airports')
 def airports():
-    sql = "select airport_name, lat_deg, lon_deg from airport;"
+    sql = "select airport_name, lat_deg, lon_deg, airport_ident from airport;"
     result = getResultList(sql)
     response = []
     for i in result:
         a = {
             "airport_name": i[0],
             "lat_deg": str(i[1]),
-            "lon_deg": str(i[2])
+            "lon_deg": str(i[2]),
+            "ICAO": str(i[3])
         }
         response.append(a)
     json_response = json.dumps(response)
@@ -48,6 +51,11 @@ def page_not_found(error_code):
     json_response = json.dumps(response)
     http_response = Response(response=json_response, status=404, mimetype="application/json")
     return http_response
+
+
+# ----------------------------------------------------------------
+# app.register_blueprint(yyApp)
+# app.register_blueprint(zzyApp)
 
 
 if __name__ == '__main__':

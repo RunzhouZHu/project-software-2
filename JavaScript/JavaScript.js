@@ -26,11 +26,14 @@ async function initMap() {
     for (let i = 0; i < a.length; i++) {
         // 在地图上添加标记
         const marker = mapMarker(a[i].lat_deg, a[i].lon_deg, a[i].airport_name, map)
+        const weather = await getWeather(a[i].lat_deg, a[i].lon_deg)
 
         // Create an info window to share between markers.
         const info = "<h3>" + a[i].airport_name + "</h3>" +
+            "<p>" + 'ICAO: ' + a[i].ICAO + "</p>" +
             "<p>" + 'distance: ' + "</p>" +
-            "<p>" + 'consume: ' + "</p>"
+            "<p>" + 'consume: ' + "</p>" +
+            "<p>" + 'weather: ' + weather + "</p>"
 
         const infoWindow = new google.maps.InfoWindow({
             content: info,
@@ -49,7 +52,6 @@ async function initMap() {
         //
         marker.addListener('click', function (evt) {
             playerMarker.setMap(null)
-            player_location = [a[i].lat_deg, a[i].lon_deg]
             playerMarker = setPlayerMark(map, a[i].lat_deg, a[i].lon_deg)
 
             map.panTo({lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)})
