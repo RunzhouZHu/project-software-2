@@ -6,6 +6,31 @@
     z-index: 1;
 }
 
+/* Fly confirm */
+#fly_confirm {
+    position: absolute;
+    z-index: 2;
+
+    top: 40%;
+    left: 40%;
+
+    display: none;
+}
+
+#fly_confirm img {
+    position: absolute;
+    height: 20rem;
+}
+
+#fly_confirm article {
+    position: relative;
+    width: 20rem;
+
+    top: 4rem;
+    left: 3rem;
+
+    color: aliceblue;
+}
 /* User info */
 #user_info article {
     position: absolute;
@@ -76,10 +101,12 @@
 
 #shop article figure figcaption {
     font-size: larger;
+    font-weight: bold;
+    color: coral;
 }
 
 #shop article figure p {
-    width: 5rem;
+    width: 9rem;
 }
 
 /* Tasks */

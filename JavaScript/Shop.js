@@ -4,7 +4,7 @@ const shop_list = [{
     'fuel_volume': 10000,
     'fuel_per_kilo': 10,
     'plane_pic': 'Css/pics/shop_pics/shop_pic1.jpg',
-    'plane_text': 'plane_text plane_text plane_text plane_text plane_text plane_text plane_text plane_text'
+    'plane_text': 'A small airplane, can be used for short distance travel.'
 },
     {
         'airplane_id': 2,
@@ -12,7 +12,7 @@ const shop_list = [{
         'fuel_volume': 100000,
         'fuel_per_kilo': 10,
         'plane_pic': 'Css/pics/shop_pics/shop_pic2.jpg',
-        'plane_text': 'plane_text plane_text plane_text plane_text plane_text plane_text plane_text plane_text'
+        'plane_text': 'A bigger plane, widely used for passengers and cargo freight.'
     },
     {
         'airplane_id': 3,
@@ -20,7 +20,7 @@ const shop_list = [{
         'fuel_volume': 1000000,
         'fuel_per_kilo': 10,
         'plane_pic': 'Css/pics/shop_pics/shop_pic3.jpg',
-        'plane_text': 'plane_text plane_text plane_text plane_text plane_text plane_text plane_text plane_text'
+        'plane_text': 'A large plane with longer travel distance, once used to transport military equipment.'
     },
     {
         'airplane_id': 4,
@@ -28,7 +28,7 @@ const shop_list = [{
         'fuel_volume': 10000000,
         'fuel_per_kilo': 10,
         'plane_pic': 'Css/pics/shop_pics/shop_pic4.jpg',
-        'plane_text': 'plane_text plane_text plane_text plane_text plane_text plane_text plane_text plane_text'
+        'plane_text': 'A spaceship from the future, there is nowhere she can not go.'
     },
 ]
 

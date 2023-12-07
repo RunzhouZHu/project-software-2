@@ -51,11 +51,38 @@ async function initMap() {
 
         //
         marker.addListener('click', function (evt) {
-            playerMarker.setMap(null)
-            playerMarker = setPlayerMark(map, a[i].lat_deg, a[i].lon_deg)
 
-            map.panTo({lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)})
-            map.setZoom(6)
+            const flyConfirm = document.getElementById('fly_confirm')
+            flyConfirm.style.display = 'block'
+
+            const flyConfirmInfo = document.createElement('article')
+            flyConfirmInfo.innerHTML = "<p>" + a[i].airport_name + "</p>" +
+                "<p>" + a[i].airport_name + "</p>" +
+                "<p>" + a[i].airport_name + "</p>"
+
+
+            flyConfirm.appendChild(flyConfirmInfo)
+
+            const flyConfirmYes = document.getElementById('flyConfirmYes')
+            const flyConfirmNo = document.getElementById('flyConfirmNo')
+
+            flyConfirmYes.addEventListener('click', function (evt) {
+                flyConfirm.style.display = 'none'
+                flyConfirmInfo.innerHTML = ''
+
+                //Update player marker and move cam
+                playerMarker.setMap(null)
+                playerMarker = setPlayerMark(map, a[i].lat_deg, a[i].lon_deg)
+
+                map.panTo({lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)})
+                map.setZoom(6)
+                //
+            })
+
+            flyConfirmNo.addEventListener('click',function (evt) {
+                flyConfirm.style.display = 'none'
+                flyConfirmInfo.innerHTML = ''
+            })
         })
     }
 }

@@ -6,6 +6,9 @@ function fly(lat,lon,playerMarker,player_location,map)
 // Open confirm window
 function flyConfirm()
 {
+    const flyConfirm = document.getElementById('fly_confirm')
+
+
 
 }
 
