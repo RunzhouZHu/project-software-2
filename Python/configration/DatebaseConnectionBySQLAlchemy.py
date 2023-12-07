@@ -21,7 +21,6 @@ def getResultList(sql):
         result = engine.execute(sql);
         keys = result.keys();
         results = [dict(zip(keys, val)) for val in result.fetchall()];
-        if(len(results) == 1) : return results[0];
     except Exception as e:
         return jsons.dumps({"result":"error", "information": e})
     return results;
