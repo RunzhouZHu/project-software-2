@@ -138,17 +138,21 @@ def takeTasks():
     res = db.oprateData(f"insert into player_task(task_id,player_id,is_complete) value({taskId},{playerId},0)")
     return res
 
-
+# http://127.0.0.1/shopPlanePage?paramToBack={"player_id":1}
 @btfApp.route("/shopPlanePage")
-def shopPlanePage(player_id):
-    result = getAirplaneByNotPlayer(player_id)
+def shopPlanePage():
+    param = g.get("paramToBack", None)
+    playerId = param['player_id']
+    result = getAirplaneByNotPlayer(playerId)
     return {'result': result};
 
 
 
 @zzyApp.route("/playerAirplanseStore")
 def playerAirplanseStore(player_id):
-    result = getPlayerAirplane(player_id);
+    param = g.get("paramToBack", None)
+    playerId = param['player_id']
+    result = getPlayerAirplane(playerId);
     return {'result': result};
 
 
