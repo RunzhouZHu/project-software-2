@@ -57,7 +57,7 @@ def fly():
     res = checkFuelIsEnough(player_id, distances);
     if(res):
         fuelPerKilo = getFuelPerKilo(player_id)
-        update_fuel_volume = 0-(distance * fuelPerKilo)
+        update_fuel_volume = 0-(distances * fuelPerKilo[0]['fuel_per_kilo'])
         updatePlayerAirplane(player_id, airplane_id, update_fuel_volume, 1)
         updatePlayer(player_id, current_location, "", "");
         return {"result": "arrived", "result_code": 1, }
