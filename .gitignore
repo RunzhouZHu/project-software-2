@@ -4,3 +4,7 @@
 
 /.idea
 /.vs
+/Python/sever/__pycache__/FlyYang.cpython-311.pyc
+/Python/sever/__pycache__/FlyZzy.cpython-311.pyc
+*.pyc
+/Python/configration/__pycache__/DatebaseConnectionBySQLAlchemy.cpython-311.pyc
