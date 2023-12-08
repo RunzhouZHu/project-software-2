@@ -152,7 +152,7 @@
     top: 5.5rem;
     left: 5.5rem;
 
-    width: 25rem;
+    width: 42rem;
 
     display: flex;
 }
@@ -178,21 +178,21 @@
 
 #version_tasks img {
     position: absolute;
-    height: 50rem;
+    height: 40rem;
 }
 
 #version_tasks article {
     position: relative;
 
-    top: 14rem;
-    left: 10rem;
+    top: 11rem;
+    left: 8rem;
 
-    width: 25rem;
+    width: 27rem;
 }
 
 #version_tasks article img {
     position: relative;
-    height: 12rem;
+    height: 10rem;
 }
 
 #version_tasks article p {

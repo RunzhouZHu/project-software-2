@@ -18,7 +18,8 @@ yyApp = Blueprint('yyApp', __name__)
 @yyApp.route("/getUserPlane")
 def getUserPlane():
     param = g.get("paramToBack", None)
-    res = db.getResultList(f"select * from player_airplane where player_id={param['player_id']}")
+    sql = f"select * from player_airplane where player_id={param['player_id']}"
+    res = db.getResultList(sql)
     return {"result": res}
 
 

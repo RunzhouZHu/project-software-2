@@ -2,13 +2,13 @@
 const tasks_list = [{
     'task_id': 1,
     'task_name': 'My first airplane',
-    'task_text': '<p>text example task text example task text example task text example task text example task1111111</p>',
+    'task_text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis. Curabitur eu aliquam lacus, lobortis placerat orci. Quisque rutrum, magna sit amet dignissim lacinia, leo purus volutpat erat, id convallis tellus libero non lacus. Duis bibendum justo lacinia, ornare ante id, fermentum tortor. Donec tempus congue dui et fermentum. </p>',
     'task_pic': 'Css/pics/task_pics/task_pic1.jpg'
 },
     {
         'task_id': 2,
         'task_name': 'example_task_name2',
-        'task_text': '<p>example task text example task text example task text example task text example task22222222</p>',
+        'task_text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis. Curabitur eu aliquam lacus, lobortis placerat orci. Quisque rutrum, magna sit amet dignissim lacinia, leo purus volutpat erat, id convallis tellus libero non lacus. Duis bibendum justo lacinia, ornare ante id, fermentum tortor. Donec tempus congue dui et fermentum. </p>',
         'task_pic': 'Css/pics/task_pics/task_pic2.jpg'
     },
 ]
@@ -16,13 +16,13 @@ const tasks_list = [{
 const version_tasks_list = [{
     'task_id': 1,
     'task_name': 'example_version_task_name1',
-    'task_text': '<p>text example task text example task text example task text example task text example task1111111</p>',
+    'task_text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis.</p>',
     'task_pic': 'Css/pics/task_pics/version_task_pic1.jpg'
 },
     {
         'task_id': 2,
         'task_name': 'example_version_task_name2',
-        'task_text': '<p>example task text example task text example task text example task text example task22222222</p>',
+        'task_text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis.</p>',
         'task_pic': 'Css/pics/task_pics/version_task_pic1.jpg'
     },
 ]
@@ -93,8 +93,8 @@ version_tasks_icon.addEventListener('click', function (evt) {
     button.src = "Css/pics/version_button.gif";
     button.alt = "button";
     button.style.height = "6rem";
-    button.style.top = "32rem";
-    button.style.left = "8rem";
+    button.style.top = "25.5rem";
+    button.style.left = "6rem";
     version_tasks.appendChild(button)
 })
 
