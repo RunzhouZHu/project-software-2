@@ -1,7 +1,7 @@
 # Game properties
 from Python.DatabaseConnection import getResultList
 
-
+'''
 # Class of player
 # -------------------------------------------------------------------
 class Player:
@@ -18,7 +18,7 @@ class Player:
 
 player1 = Player(1, 1000)
 player1.current_location = "ZWWW"
-
+'''
 
 # ---------------------------------------------------------------
 # Tool class

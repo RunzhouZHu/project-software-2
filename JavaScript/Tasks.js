@@ -1,51 +1,18 @@
-// Task example, should fetch from database
-const tasks_list = [{
-    'task_id': 1,
-    'task_name': 'My first airplane',
-    'task_first_location': 'ZWWW',
-    'start': 'ZWWW',
-    'end': 'ZUTF',
-    'task_team_sign': 1,
-    'task_amount': 100,
-    'task_mileage': 10,
-    'task_sort': 1,
-    'version': 1,
-    'next_task': 2,
-    'before_task': 0,
-    'task_content': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis. Curabitur eu aliquam lacus, lobortis placerat orci. Quisque rutrum, magna sit amet dignissim lacinia, leo purus volutpat erat, id convallis tellus libero non lacus. Duis bibendum justo lacinia, ornare ante id, fermentum tortor. Donec tempus congue dui et fermentum. </p>',
-    'task_pic': 'Css/pics/task_pics/task_pic1.jpg'
-},
-    {
-        'task_id': 2,
-        'task_name': 'My first airplane',
-        'task_first_location': 'ZUTF',
-        'start': 'ZUTF',
-        'end': 'ZSPD',
-        'task_team_sign': 1,
-        'task_amount': 100,
-        'task_mileage': 10,
-        'task_sort': 1,
-        'version': 1,
-        'next_task': 0,
-        'before_task': 1,
-        'task_content': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis. Curabitur eu aliquam lacus, lobortis placerat orci. Quisque rutrum, magna sit amet dignissim lacinia, leo purus volutpat erat, id convallis tellus libero non lacus. Duis bibendum justo lacinia, ornare ante id, fermentum tortor. Donec tempus congue dui et fermentum. </p>',
-        'task_pic': 'Css/pics/task_pics/task_pic1.jpg'
-    },
-]
+function task(player_id)
+{
 
-const version_tasks_list = [{
-    'task_id': 1,
-    'task_name': 'example_version_task_name1',
-    'task_content': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis.</p>',
-    'task_pic': 'Css/pics/task_pics/version_task_pic1.jpg'
-},
-    {
-        'task_id': 2,
-        'task_name': 'example_version_task_name2',
-        'task_content': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis.</p>',
-        'task_pic': 'Css/pics/task_pics/version_task_pic1.jpg'
-    },
-]
+}
+
+// Show task list left
+function getUnreceivedTask(player_id, player_location)
+{
+    const unreceivedTask = getAPI("http://127.0.0.1:5000/getUnreceivedTaskId/" + player_id + "/" + player_location, 'getUnreceivedTask')
+}
+
+function getReceivedTask(player_id)
+{
+
+}
 
 // Task show task window
 // Task info = task window
@@ -61,6 +28,9 @@ function showTaskInfo(task_id) {
     task_info.style.display = 'block';
 
     // Show task button
+    const taskButton = button("Css/pics/button.png", "Css/pics/button1.png", "2rem", "18rem", "37rem")
+
+    /*
     const button = document.createElement('img')
     button.src = "Css/pics/button.png";
     button.alt = "button";
@@ -75,6 +45,29 @@ function showTaskInfo(task_id) {
     button.addEventListener('mouseout', function (evt) {
         button.src = "Css/pics/button.png"
     })
+    */
+}
+
+// Task button
+function button(src, srcMouseover, height, top, left)
+{
+    // Show button
+    const button = document.createElement('img')
+    button.src = src;
+    button.alt = "button";
+    button.style.height = height;
+    button.style.top = top;
+    button.style.left = left;
+
+    // Change button when mouse over
+    button.addEventListener('mouseover', function (evt) {
+        button.src = srcMouseover
+    })
+    button.addEventListener('mouseout', function (evt) {
+        button.src = src
+    })
+
+    return button
 }
 
 
