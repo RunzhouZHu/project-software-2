@@ -6,17 +6,18 @@ from Python.sever.FlyYang import *
 from Python.sever.FlyZzy import *
 
 btfApp = Blueprint('btfApp', __name__)
-
+#http://127.0.0.1:80/login?paramToBack={'player_name':"zzy", "player_pic":""}
+#http://127.0.0.1:80/login?paramToBack={'player_name':'zzz', "player_pic":'zzz'}
 @btfApp.route("/login")
 def login():
     param_value = g.get("paramToBack", None);
     player_name = param_value['player_name'];
     player_pic = param_value['player_pic'];
-    userInfos = checkUserInfo(player_name);
+    userInfos = checkUserInfo(player_name,"");
     if(not userInfos):
         insertUser(player_name, player_pic);
         userInfos = checkUserInfo(player_name);
-    userTasks = receiveTasks(userInfos['player_id'], userInfos['player_id']);
+    userTasks = receiveTasks(userInfos[0]['player_id'], "");
     result = {'userInfos':userInfos, 'userTasks':userTasks}
     return {'result':result, "result_code": 1}
 
@@ -34,13 +35,13 @@ def experienceNow():
 
 # 查询用户已接任务
 # http://127.0.0.1/receiveTasks?paramToBack={"player_id":1,"task_id":""}
-@btfApp.route("/receiveTasks")
-def receiveTasks():
-    param = g.get("paramToBack", None)
-    playerId = param['player_id']
-    taskId = param['task_id'];
-    res = receiveTasks(playerId, taskId);
-    return {"result": res, "result_code": 1}
+# @btfApp.route("/receiveTasks")
+# def receiveTasks():
+#     param = g.get("paramToBack", None)
+#     playerId = param['player_id']
+#     taskId = param['task_id'];
+#     res = receiveTasks(playerId, taskId);
+#     return {"result": res, "result_code": 1}
 
 
 
@@ -144,16 +145,6 @@ def shopPlanePage(player_id):
     return {'result': result};
 
 
-# @zzyApp.route("/getAirport")
-# def getAirport():
-#     param_value = g.get("paramToBack", None);
-#     airport_id = param_value['airport_id'];
-#     sql = (
-#         f"select airport_id,airport_ident,airport_name,airport_type,lat_deg,lon_deg,country_name,iso_country from airport "
-#         f"{'' if airport_id == '' else f'where airport_id = {airport_id}'}");
-#     result = db.getResultList(sql)
-#     return {'result': result};
-
 
 @zzyApp.route("/playerAirplanseStore")
 def playerAirplanseStore(player_id):
@@ -180,12 +171,6 @@ def gerUserInfo():
 
 
 
-
-# @selfApp.route('/getUserPlane')
-# def other_route():
-#     param_value = g.get("paramToBack",None)
-#     return param_value
-
 # 查询用户飞机
 # http://127.0.0.1/getUserPlane?paramToBack={"player_id":1}
 @yyApp.route("/getUserPlane")
@@ -194,3 +179,4 @@ def getUserPlane():
     sql = f"select * from player_airplane where player_id={param['player_id']}"
     res = db.getResultList(sql)
     return {"result": res}
+
