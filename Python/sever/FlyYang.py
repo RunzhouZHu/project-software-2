@@ -25,7 +25,7 @@ yyApp = Blueprint('yyApp', __name__)
 #     return res
 
 def insertUser(player_name, player_pic):
-    res = db.oprateData(f"INSERT into player(player_name,player_pic,current_location,current_amount,current_mileage,current_version) VALUE({player_name},{player_pic},25,100000,0,1)")
+    res = db.oprateData(f"INSERT into player(player_name,player_pic,current_location,current_amount,current_mileage,current_version) VALUE('{player_name}','{player_pic}',25,100000,0,1)")
     return res
 
 # 查询用户已接任务
