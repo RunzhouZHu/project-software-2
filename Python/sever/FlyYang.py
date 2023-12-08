@@ -39,7 +39,7 @@ def insertUser(player_name, player_pic):
 #     return {"result": res}
 
 def receiveTasks(playerId, taskId):
-    res = db.getResultList(f"SELECT a.player_id,a.task_id,a.is_complete,b.task_name,b.task_first_location,b.start,b.end,b.task_team_sign,b.task_amount,b.task_mileage,b.task_content,b.task_sort,b.version,b.next_task,b.before_task FROM player_task a left join task b on a.task_id=b.task_id where a.player_id={playerId} {'' if taskId == '' else f'and a.task_id={taskId}'}")
+    res = db.getResultList(f"SELECT a.player_id,a.task_id,a.is_complete,b.task_name,b.task_first_location,b.start,b.end,b.task_team_sign,b.task_amount,b.task_mileage,b.task_content,b.task_sort,b.version,b.next_task,b.before_task FROM player_task a left join task b on a.task_id=b.task_id where a.player_id={playerId} {'' if taskId == '' else f'and a.task_id={taskId} '} and a.is_complete = 0" )
     return res;
 
 

@@ -119,7 +119,7 @@ def getFuelPerKilo(player_id):
 
 
 def getVersionTaskFromUserTask(player_id, version):
-    sql = f"WITH RankedTasks AS ( SELECT a.player_id, a.task_id, a.is_complete, b.task_name, b.task_first_location, b.start, b.end, b.task_team_sign, b.task_amount, b.task_mileage, b.task_content, b.task_sort, b.version, b.next_task, b.before_task, ROW_NUMBER() OVER (PARTITION BY b.task_team_sign ORDER BY b.task_sort) AS RowNum FROM player_task a LEFT JOIN task b ON a.task_id = b.task_id WHERE a.player_id = {player_id} and b.version = {version} ) SELECT player_id, task_id, is_complete, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_sort, version, next_task, before_task FROM RankedTasks WHERE RowNum = 1";
+    sql = f"WITH RankedTasks AS ( SELECT a.player_id, a.task_id, a.is_complete, b.task_name, b.task_first_location, b.start, b.end, b.task_team_sign, b.task_amount, b.task_mileage, b.task_content, b.task_sort, b.version, b.next_task, b.before_task, ROW_NUMBER() OVER (PARTITION BY b.task_team_sign ORDER BY b.task_sort) AS RowNum FROM player_task a LEFT JOIN task b ON a.task_id = b.task_id WHERE a.player_id = {player_id} and b.version = '{version}' ) SELECT player_id, task_id, is_complete, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_sort, version, next_task, before_task FROM RankedTasks WHERE RowNum = 1";
     res = db.getResultList(sql)
     return res;
 
@@ -156,7 +156,14 @@ def checkUserInfo(player_name, player_id):
 
 def taskGroupAndsort(taskList):
     if(taskList):
-        sorted = sorted(taskList, key=lambda x: (x["task_team_sign"], x["task_sort"]))
-        grouped = {key: list(group) for key, group in groupby(sorted, key=lambda x: x["task_team_sign"])}
+        sort = sorted(taskList, key=lambda x: (x["task_team_sign"], x["task_sort"]))
+        grouped = {key: list(group) for key, group in groupby(sort, key=lambda x: x["task_team_sign"])}
         taskList = {key: min(group, key=lambda x: x["task_sort"]) for key, group in grouped.items()}
-    return taskList;
+        keys = grouped.keys();
+        result = [];
+        for i in keys:
+            tmp = {};
+            tmp['task_team_sign'] = i;
+            tmp['taskInfo'] = taskList[i];
+            result.append(tmp);
+    return result;

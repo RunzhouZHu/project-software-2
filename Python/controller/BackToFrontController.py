@@ -21,7 +21,7 @@ def login():
     result = {'userInfos':userInfos, 'userTasks':userTasks}
     return {'result':result, "result_code": 1}
 
-
+#http://127.0.0.1/experienceNow?paramToBack={'player_id':1, "version":"v2"}
 @btfApp.route("/experienceNow")
 def experienceNow():
     param = g.get("paramToBack", None)
