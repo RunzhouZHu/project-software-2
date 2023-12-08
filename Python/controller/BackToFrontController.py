@@ -169,3 +169,28 @@ def getPlayerUnreciveTasks():
     playerId = param['player_id']
     res = unreciveTasks(playerId);
     return {"result": res}
+
+
+@yyApp.route("/getUserInfo")
+def gerUserInfo():
+    param = g.get("paramToBack", None)
+    res = db.getResultList(
+        f"select a.player_id, a.player_name,a.player_pic,a.current_location,a.current_amount,a.current_mileage,a.current_version,b.airplane_id,b.current_fuel_volume,c.airplane_id,c.airplane_type_name,c.fuel_per_kilo,c.fuel_volume,c.airplane_pic from player a left join  player_airplane b on a.player_id=b.player_id left join airplane c on b.airplane_id=c.airplane_id WHERE a.player_id='{param['player_id']}' and b.is_current_airplane='{param['is_current_airplane']}'")
+    return {"result": res}
+
+
+
+
+# @selfApp.route('/getUserPlane')
+# def other_route():
+#     param_value = g.get("paramToBack",None)
+#     return param_value
+
+# 查询用户飞机
+# http://127.0.0.1/getUserPlane?paramToBack={"player_id":1}
+@yyApp.route("/getUserPlane")
+def getUserPlane():
+    param = g.get("paramToBack", None)
+    sql = f"select * from player_airplane where player_id={param['player_id']}"
+    res = db.getResultList(sql)
+    return {"result": res}
