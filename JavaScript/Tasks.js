@@ -2,40 +2,91 @@
 const tasks_list = [{
     'task_id': 1,
     'task_name': 'My first airplane',
-    'task_text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis. Curabitur eu aliquam lacus, lobortis placerat orci. Quisque rutrum, magna sit amet dignissim lacinia, leo purus volutpat erat, id convallis tellus libero non lacus. Duis bibendum justo lacinia, ornare ante id, fermentum tortor. Donec tempus congue dui et fermentum. </p>',
+    'task_first_location': 'ZWWW',
+    'start': 'ZWWW',
+    'end': 'ZUTF',
+    'task_team_sign': 1,
+    'task_amount': 100,
+    'task_mileage': 10,
+    'task_sort': 1,
+    'version': 1,
+    'next_task': 2,
+    'before_task': 0,
+    'task_content': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis. Curabitur eu aliquam lacus, lobortis placerat orci. Quisque rutrum, magna sit amet dignissim lacinia, leo purus volutpat erat, id convallis tellus libero non lacus. Duis bibendum justo lacinia, ornare ante id, fermentum tortor. Donec tempus congue dui et fermentum. </p>',
     'task_pic': 'Css/pics/task_pics/task_pic1.jpg'
 },
     {
         'task_id': 2,
-        'task_name': 'example_task_name2',
-        'task_text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis. Curabitur eu aliquam lacus, lobortis placerat orci. Quisque rutrum, magna sit amet dignissim lacinia, leo purus volutpat erat, id convallis tellus libero non lacus. Duis bibendum justo lacinia, ornare ante id, fermentum tortor. Donec tempus congue dui et fermentum. </p>',
-        'task_pic': 'Css/pics/task_pics/task_pic2.jpg'
+        'task_name': 'My first airplane',
+        'task_first_location': 'ZUTF',
+        'start': 'ZUTF',
+        'end': 'ZSPD',
+        'task_team_sign': 1,
+        'task_amount': 100,
+        'task_mileage': 10,
+        'task_sort': 1,
+        'version': 1,
+        'next_task': 0,
+        'before_task': 1,
+        'task_content': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis. Curabitur eu aliquam lacus, lobortis placerat orci. Quisque rutrum, magna sit amet dignissim lacinia, leo purus volutpat erat, id convallis tellus libero non lacus. Duis bibendum justo lacinia, ornare ante id, fermentum tortor. Donec tempus congue dui et fermentum. </p>',
+        'task_pic': 'Css/pics/task_pics/task_pic1.jpg'
     },
 ]
 
 const version_tasks_list = [{
     'task_id': 1,
     'task_name': 'example_version_task_name1',
-    'task_text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis.</p>',
+    'task_content': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis.</p>',
     'task_pic': 'Css/pics/task_pics/version_task_pic1.jpg'
 },
     {
         'task_id': 2,
         'task_name': 'example_version_task_name2',
-        'task_text': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis.</p>',
+        'task_content': '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec ullamcorper dui, ac lacinia ante. Donec elementum nulla eget vulputate sagittis.</p>',
         'task_pic': 'Css/pics/task_pics/version_task_pic1.jpg'
     },
 ]
 
+// Task show task window
+// Task info = task window
+function showTaskInfo(task_id) {
+    const task_info = document.getElementById('task_info')
+
+    // Show task info window
+    task_info.innerHTML = "<img src='Css/pics/task_info1.png' alt='task_info'>" +
+        "<article>"
+        + "<img src=" + tasks_list[i].task_pic + " alt='task_pic'/>"
+        + tasks_list[i].task_content
+        + "</article>"
+    task_info.style.display = 'block';
+
+    // Show task button
+    const button = document.createElement('img')
+    button.src = "Css/pics/button.png";
+    button.alt = "button";
+    button.style.height = "2rem";
+    button.style.top = "18rem";
+    button.style.left = "37rem";
+    task_info.appendChild(button)
+
+    button.addEventListener('mouseover', function (evt) {
+        button.src = "Css/pics/button1.png"
+    })
+    button.addEventListener('mouseout', function (evt) {
+        button.src = "Css/pics/button.png"
+    })
+}
 
 
 
+
+
+/*
 // Tasks, task names
 const task_info = document.getElementById('task_info')
 const tasks = document.getElementById('tasks')
 
-for (let i=0;i<tasks_list.length;i++)
-{
+for (let i = 0; i < tasks_list.length; i++) {
     const task_name = document.createElement('p')
     task_name.innerText = tasks_list[i].task_name
     tasks.appendChild(task_name)
@@ -43,11 +94,11 @@ for (let i=0;i<tasks_list.length;i++)
     task_name.addEventListener('click', function (evt) {
 
         // Show task info window
-        task_info.innerHTML ="<img src='Css/pics/task_info1.png' alt='task_info'>"+
+        task_info.innerHTML = "<img src='Css/pics/task_info1.png' alt='task_info'>" +
             "<article>"
-            +"<img src=" + tasks_list[i].task_pic + " alt='task_pic'/>"
-            + tasks_list[i].task_text
-            +"</article>"
+            + "<img src=" + tasks_list[i].task_pic + " alt='task_pic'/>"
+            + tasks_list[i].task_content
+            + "</article>"
         task_info.style.display = 'block';
 
         // Show task button
@@ -80,11 +131,11 @@ const version_tasks = document.getElementById('version_tasks')
 const version_tasks_icon = document.getElementById('version_tasks_icon')
 version_tasks_icon.addEventListener('click', function (evt) {
 
-    version_tasks.innerHTML = "<img src='Css/pics/version_task.gif' alt='version task'>'"+
-            "<article>"
-            +"<img src=" + version_tasks_list[1].task_pic + " alt='task_pic'/>"
-            + version_tasks_list[1].task_text
-            +"</article>"
+    version_tasks.innerHTML = "<img src='Css/pics/version_task.gif' alt='version task'>'" +
+        "<article>"
+        + "<img src=" + version_tasks_list[1].task_pic + " alt='task_pic'/>"
+        + version_tasks_list[1].task_content
+        + "</article>"
 
     version_tasks.style.display = 'block';
 
@@ -103,8 +154,9 @@ version_tasks.addEventListener('click', function (evt) {
 })
 
 
-
 //Task check
-function taskCheck(){
+function taskCheck() {
 
 }
+
+ */

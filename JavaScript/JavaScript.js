@@ -15,12 +15,14 @@ async function initMap() {
     });
 
     //Initial data
-    let player_location = await getAPI('http://127.0.0.1:5000/player_location', 'player location')
+    let player_location = await getAPI('http://127.0.0.1:5000/player_info', 'player location')
     //a for airports
     const a = await getAPI('http://127.0.0.1:5000/Airports', 'airports')
+    //Initial player info
+    initialPlayerInfo()
 
     // Set costume markers
-    let playerMarker = setPlayerMark(map, player_location[0], player_location[1]);
+    let playerMarker = setPlayerMark(map, player_location.current_location.lat, player_location.current_location.lon);
     // Get airports and mark them on the map
 
     for (let i = 0; i < a.length; i++) {

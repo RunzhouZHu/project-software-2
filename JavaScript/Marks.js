@@ -4,7 +4,13 @@ function mapMarker(lat, lon, title, map) {
         position: {lat: parseFloat(lat), lng: parseFloat(lon)}, // 设置标记的经纬度
         map: map,
         title: title,
-        zIndex: 3
+        zIndex: 3,
+
+        label: {
+            color: "#FFF",                //文本颜色
+            fontSize: "10px",           //文本字体大小
+            text: title 			 //需要显示的文本
+        }
     })
 }
 
@@ -20,7 +26,7 @@ function setPlayerMark(map, lat, lon) {
         coords: [1, 1, 1, 20, 18, 20, 18, 1],
         type: "poly",
     };
-    return  new google.maps.Marker({
+    return new google.maps.Marker({
         position: {lat: parseFloat(lat), lng: parseFloat(lon)},
         map,
         icon: image,
@@ -29,7 +35,6 @@ function setPlayerMark(map, lat, lon) {
         zIndex: 5// Z轴位置，是否显示在其他元素上层
     });
 }
-
 
 
 //

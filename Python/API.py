@@ -29,12 +29,29 @@ def airports():
     return json_response
 
 
-# Get player location
-@app.route('/player_location')
-def player_location():
-    lat = str(Tool.location_finder(player1.current_location)[0])
-    lon = str(Tool.location_finder(player1.current_location)[1])
-    response = [lat, lon]
+# Get player info
+@app.route('/player_info')
+def player_info():
+    sql = "select player_id,player_name,player_pic, current_location, current_amount, current_mileage from player where player_id = 1;"
+    result = getResultList(sql)
+    player_id = result[0][0]
+    player_name =result[0][1]
+    player_pic = result[0][2]
+    current_location = result[0][3]
+    current_amount = result[0][4]
+    current_mileage = result[0][5]
+
+    response = {
+        "player_id": player_id,
+        "player_name": player_name,
+        "player_pic": player_pic,
+        "current_amount": current_amount,
+        "current_mileage": current_mileage,
+        "current_location": {
+            "lat": str(Tool.location_finder(current_location)[0]),
+            "lon": str(Tool.location_finder(current_location)[1])
+        }
+    }
     json_response = json.dumps(response)
 
     return json_response
