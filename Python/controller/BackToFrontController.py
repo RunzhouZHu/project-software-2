@@ -46,27 +46,35 @@ def experienceNow():
 
 
 
-
+#http://127.0.0.1/fly?paramToBack={'player_id':1, "version":"v2"}
 @btfApp.route("/fly")
 def fly():
     param_value = g.get("paramToBack", None);
-    start_lon = param_value['start_lon'];
-    start_lat = param_value['start_lat'];
-    end_lon = param_value['end_lon'];
-    end_lat = param_value['end_lat'];
+    distances = param_value['distance'];
     player_id = param_value['player_id'];
     airplane_id = param_value['airplane_id'];
     current_location = str(param_value['current_location']);
-    distance = claculateDistance(start_lon, start_lat, end_lon, end_lat)
-    res = checkFuelIsEnough(player_id, distance);
+    res = checkFuelIsEnough(player_id, distances);
     if(res):
         fuelPerKilo = getFuelPerKilo(player_id)
         update_fuel_volume = 0-(distance * fuelPerKilo)
         updatePlayerAirplane(player_id, airplane_id, update_fuel_volume, 1)
         updatePlayer(player_id, current_location, "", "");
-        return {"result": "arrived", "result_code": 1}
+        return {"result": "arrived", "result_code": 1, }
     else:
         return {"result": "fuel is not enough", "result_code": 0}
+
+#http://127.0.0.1/calculateDistance?paramToBack={'start_lon':-123.1839981080, "start_lat":49.1939010620,'end_lon':13.4938890000, "end_lat":52.3513890000}
+@btfApp.route("/calculateDistance")
+def calculateDistance():
+    param_value = g.get("paramToBack", None);
+    start_lon = param_value['start_lon'];
+    start_lat = param_value['start_lat'];
+    end_lon = param_value['end_lon'];
+    end_lat = param_value['end_lat'];
+    distance = claculateDistance(start_lon, start_lat, end_lon, end_lat)
+    return {"result": distance, "result_code": 1}
+
 
 
 @btfApp.route("/updatePlayerInfo")
