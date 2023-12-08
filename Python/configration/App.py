@@ -1,4 +1,6 @@
 from flask import Flask,request,g
+
+from Python.controller.BackToFrontController import btfApp
 from Python.sever.FlyYang import yyApp
 from Python.sever.FlyZzy import zzyApp
 from flask_cors import CORS
@@ -9,6 +11,7 @@ CORS(app)
 # register file
 app.register_blueprint(yyApp)
 app.register_blueprint(zzyApp)
+app.register_blueprint(btfApp)
 
 @app.before_request
 def before_request():
