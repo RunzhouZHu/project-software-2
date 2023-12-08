@@ -67,8 +67,8 @@ def updatePlayer(player_id, current_location, task_amount, player_pic):
 
 def updatePlayerAirplane(player_id, airplane_id, update_fuel_volume, is_current_airplane):
     sql = (f"UPDATE player_airplane set "
-           f"current_fuel_volume = current_fuel_volume+{'0' if update_fuel_volume == '' else update_fuel_volume},"
-           f"is_current_airplane = {'is_current_airplane' if is_current_airplane == '' else is_current_airplane} "
+           f"current_fuel_volume = current_fuel_volume+{'0' if update_fuel_volume == '' else update_fuel_volume}"
+           f"{'' if is_current_airplane == '' else f',is_current_airplane = {is_current_airplane}'} "
            f"where player_id = {player_id} and airplane_id = {airplane_id}");
     return db.oprateData(sql);
 
@@ -106,7 +106,7 @@ def checkFuelIsEnough(player_id, distance):
            f"left join airplane a on pa.airplane_id = a.airplane_id "
            f"where pa.player_id = {player_id} and pa.is_current_airplane = 1");
     res = db.getResultList(sql)
-    result = False if (res['current_fuel_volume'] / res['fuel_per_kilo']) < distance else True;
+    result = False if (res[0]['current_fuel_volume'] / res[0]['fuel_per_kilo']) < distance else True;
     return result;
 
 def getFuelPerKilo(player_id):

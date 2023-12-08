@@ -46,14 +46,14 @@ def experienceNow():
 
 
 
-#http://127.0.0.1/fly?paramToBack={'player_id':1, "version":"v2"}
+#http://127.0.0.1/fly?paramToBack={'distance':13046.576134413977, "player_id":1, 'airplane_id':1, "target_location":1}
 @btfApp.route("/fly")
 def fly():
     param_value = g.get("paramToBack", None);
     distances = param_value['distance'];
     player_id = param_value['player_id'];
     airplane_id = param_value['airplane_id'];
-    current_location = str(param_value['current_location']);
+    current_location = param_value['target_location'];
     res = checkFuelIsEnough(player_id, distances);
     if(res):
         fuelPerKilo = getFuelPerKilo(player_id)
@@ -95,7 +95,7 @@ def updateCurrentFule():
     param_value = g.get("paramToBack", None);
     player_id = param_value['player_id'];
     airplane_id = param_value['airplane_id'];
-    res = update_fuel_volume = param_value['update_fuel_volume'];
+    update_fuel_volume = param_value['update_fuel_volume'];
     res = updatePlayerAirplane(player_id, airplane_id, update_fuel_volume, 1);
     return {"result": "success", "result_code": 0}
 
