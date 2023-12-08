@@ -16,7 +16,7 @@ def login():
     userInfos = checkUserInfo(player_name,"");
     if(not userInfos):
         insertUser(player_name, player_pic);
-        userInfos = checkUserInfo(player_name);
+        userInfos = checkUserInfo(player_name,"");
     userTasks = receiveTasks(userInfos[0]['player_id'], "");
     result = {'userInfos':userInfos, 'userTasks':userTasks}
     return {'result':result, "result_code": 1}
