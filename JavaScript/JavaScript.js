@@ -62,12 +62,14 @@ async function initMap() {
     }
 
 
-    // Move player marker
+    // Move player check tasks
     for (let i = 0; i < marker_list.length; i++) {
         marker_list[i].addListener('click', async function (evt) {
-            fly(a[i], playerMarker, map)
-            const distance = await calculateDistance(parseFloat(player.deg.lat), parseFloat(player.deg.lat), parseFloat(a[i].lat_deg), parseFloat(a[i].lat_deg))
-            await flyUpdate(distance, 1, 1, a[i].airport_id)
+            fly(a[i], player,playerMarker, map)
+
+            //tasks
+
+
         })
     }
 

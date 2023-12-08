@@ -142,6 +142,17 @@ def getUnreceivedTaskId(player_id, ICAO):
 
     return json_response
 
+# change player location
+@app.route("/changePlayerLocation/<airportId>")
+def changePlayerLocation(airportId):
+    sqlFindId = "select airport_ident from airport where airport_id =" + airportId + ";"
+    ICAO = getResultList(sqlFindId)[0][0]
+    sql = "update player set current_location = '" + ICAO + "' where player_id = 1;"
+    getResultList(sql)
+
+    return "success"
+
+
 
 @app.errorhandler(404)
 def page_not_found(error_code):

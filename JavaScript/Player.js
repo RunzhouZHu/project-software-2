@@ -1,5 +1,5 @@
 // fly
-function fly(airport, playerMarker, map) {
+function fly(airport, player,playerMarker, map) {
     const flyConfirm = document.getElementById('fly_confirm')
     flyConfirm.style.display = 'block'
 
@@ -14,7 +14,7 @@ function fly(airport, playerMarker, map) {
     const flyConfirmYes = document.getElementById('flyConfirmYes')
     const flyConfirmNo = document.getElementById('flyConfirmNo')
 
-    flyConfirmYes.addEventListener('click', function (evt) {
+    flyConfirmYes.addEventListener('click', async function (evt) {
         flyConfirm.style.display = 'none'
         flyConfirmInfo.innerHTML = ''
 
@@ -25,6 +25,10 @@ function fly(airport, playerMarker, map) {
         map.panTo({lat: parseFloat(airport.lat_deg), lng: parseFloat(airport.lon_deg)})
         map.setZoom(6)
 
+        //Update player info
+        const distance = await calculateDistance(parseFloat(player.deg.lat), parseFloat(player.deg.lat), parseFloat(airport.lat_deg), parseFloat(airport.lat_deg))
+        await flyUpdate(airport.airport_id)
+
     })
 
     flyConfirmNo.addEventListener('click', function (evt) {
@@ -33,18 +37,14 @@ function fly(airport, playerMarker, map) {
 }
 
 // Fly and Update player information
-async function flyUpdate(distance, playerId, airplaneId, targetLocation) {
-    await getAPI("http://127.0.0.1/fly?paramToBack={'distance':" + distance + ", 'player_id':" + playerId + ", 'airplane_id':" + airplaneId + ", 'target_location':" + targetLocation + "}", 'fly and player info updated.')
+async function flyUpdate(targetLocation) {
+    await getAPI("http://127.0.0.1:5000/changePlayerLocation/" + targetLocation)
 }
 
 
 // Calculate distance
 async function calculateDistance(start_lat, start_lon, end_lat, end_lon) {
-
-    result = await getAPI("http://127.0.0.1/calculateDistance?paramToBack={'start_lon':" + start_lon + ", 'start_lat':" + start_lon + ",'end_lon':" + end_lon + ", 'end_lat':" + end_lat + "}")
-
-    console.log(result.result)
-
+    let result = await getAPI("http://127.0.0.1/calculateDistance?paramToBack={'start_lon':" + start_lon + ", 'start_lat':" + start_lon + ",'end_lon':" + end_lon + ", 'end_lat':" + end_lat + "}")
     return result.result
 }
 
