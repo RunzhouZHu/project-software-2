@@ -1,6 +1,5 @@
 import json
 
-import numpy as np
 from flask import Flask, Response
 from flask_cors import CORS
 
