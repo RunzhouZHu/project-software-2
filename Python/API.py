@@ -32,9 +32,9 @@ def airports():
 
 
 # Get player info
-@app.route('/player_info')
-def player_info():
-    sql = "select player_id,player_name,player_pic, current_location, current_amount, current_mileage from player where player_id = 1;"
+@app.route('/player_info/<player_id>')
+def player_info(player_id):
+    sql = "select player_id,player_name,player_pic, current_location, current_amount, current_mileage from player where player_id = " + player_id + ";"
     result = getResultList(sql)
     player_id = result[0][0]
     player_name = result[0][1]
@@ -49,7 +49,8 @@ def player_info():
         "player_pic": player_pic,
         "current_amount": current_amount,
         "current_mileage": current_mileage,
-        "current_location": {
+        "current_location": current_location,
+        "deg": {
             "lat": str(Tool.location_finder(current_location)[0]),
             "lon": str(Tool.location_finder(current_location)[1])
         }

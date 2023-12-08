@@ -5,6 +5,8 @@ function mapMarker(lat, lon, title, map) {
         map: map,
         title: title,
         zIndex: 3,
+        lat: lat,
+        lon: lon,
 
         label: {
             color: "#FFF",                //文本颜色
@@ -36,6 +38,11 @@ function setPlayerMark(map, lat, lon) {
     });
 }
 
+// Check which marker is clicked
+function checkMarkerClick(marker_list)
+{
+
+}
 
 //
 /*

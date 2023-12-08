@@ -14,20 +14,24 @@ async function initMap() {
         mapTypeId: 'satellite',
     });
 
-    //Initial data
-    let player = await getAPI('http://127.0.0.1:5000/player_info', 'player info')
     //a for airports
     const a = await getAPI('http://127.0.0.1:5000/Airports', 'airports')
-    //Initial player info
-    await initialPlayerInfo()
+
+
+    //Initial data
+    let player = await getAPI('http://127.0.0.1:5000/player_info/1', 'player info')
+    await getPlayerInfo(1)
+
 
     //Tasks
     await getReceivedTask(1)
 
     // Set costume markers
-    let playerMarker = setPlayerMark(map, player.current_location.lat, player.current_location.lon);
-    // Get airports and mark them on the map
+    let playerMarker = setPlayerMark(map, player.deg.lat, player.deg.lon);
 
+
+    // Mark on the map
+    const marker_list = []
     for (let i = 0; i < a.length; i++) {
         // 在地图上添加标记
         const marker = mapMarker(a[i].lat_deg, a[i].lon_deg, a[i].airport_name, map)
@@ -44,7 +48,7 @@ async function initMap() {
             content: info,
         });
 
-        // Add marker info window listener, 明明Google自己的网页里用的就是这个方法，为啥显示弃用了呢？？（＃￣～￣＃）
+        // Add marker info window listener
         marker.addListener('mouseover', () => {
 
             infoWindow.open(marker.getMap(), marker);
@@ -53,9 +57,26 @@ async function initMap() {
         marker.addListener('mouseout', () => {
             infoWindow.close();
         })
-
         //
-        marker.addListener('click', async function (evt) {
+        marker_list.push(marker)
+    }
+
+
+    // Move player marker
+    for (let i = 0; i < marker_list.length; i++) {
+        marker_list[i].addListener('click', async function (evt) {
+            fly(a[i], playerMarker, map)
+            const distance = await calculateDistance(parseFloat(player.deg.lat), parseFloat(player.deg.lat), parseFloat(a[i].lat_deg), parseFloat(a[i].lat_deg))
+            await flyUpdate(distance, 1, 1, a[i].airport_id)
+        })
+    }
+
+    // Get unreceived tasks id from current location
+
+
+    /*
+    for (let i = 0; i < marker_list.length; i++) {
+        marker_list[i].addListener('click', async function (evt) {
 
             const flyConfirm = document.getElementById('fly_confirm')
             flyConfirm.style.display = 'block'
@@ -89,12 +110,53 @@ async function initMap() {
                 flyConfirm.style.display = 'none'
                 flyConfirmInfo.innerHTML = ''
             })
-
-            // flight task
-            //await calculateDistance(parseFloat(player.current_location.lat), parseFloat(player.current_location.lon), a[i].lat_deg, a[i].lon_deg)
         })
     }
+/*
+
+    /*
+            //
+            marker.addListener('click', async function (evt) {
+
+                const flyConfirm = document.getElementById('fly_confirm')
+                flyConfirm.style.display = 'block'
+
+                const flyConfirmInfo = document.createElement('article')
+                flyConfirmInfo.innerHTML = "<p>" + a[i].airport_name + "</p>" +
+                    "<p>" + a[i].airport_name + "</p>" +
+                    "<p>" + a[i].airport_name + "</p>"
+
+
+                flyConfirm.appendChild(flyConfirmInfo)
+
+                const flyConfirmYes = document.getElementById('flyConfirmYes')
+                const flyConfirmNo = document.getElementById('flyConfirmNo')
+
+                flyConfirmYes.addEventListener('click', function (evt) {
+                    flyConfirm.style.display = 'none'
+                    flyConfirmInfo.innerHTML = ''
+
+                    //Update player marker and move cam
+                    playerMarker.setMap(null)
+                    playerMarker = setPlayerMark(map, a[i].lat_deg, a[i].lon_deg)
+
+                    map.panTo({lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)})
+                    map.setZoom(6)
+                    // Fly and Update player information
+
+                })
+
+                flyConfirmNo.addEventListener('click', function (evt) {
+                    flyConfirm.style.display = 'none'
+                    flyConfirmInfo.innerHTML = ''
+                })
+            })
+    */
+
+
 }
 
 // Initial Shop
 shopInitial()
+
+window.initMap = initMap;
