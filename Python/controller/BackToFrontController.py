@@ -76,7 +76,7 @@ def calculateDistance():
     return {"result": distance, "result_code": 1}
 
 
-
+#http://127.0.0.1/updateCurrentFule?paramToBack={'player_id': 1, 'airplane_id': 2,'update_fuel_volume':222}
 @btfApp.route("/updatePlayerInfo")
 def updatePlayerInfo():
     param_value = g.get("paramToBack", None);
@@ -89,14 +89,14 @@ def updatePlayerInfo():
            f" where player_id ={player_id}");
     return db.oprateData(sql);
 
-
+# http://127.0.0.1/updateCurrentFule?paramToBack={'player_id': 1, 'airplane_id': 2,'update_fuel_volume':666}
 @btfApp.route("/updateCurrentFule")
 def updateCurrentFule():
     param_value = g.get("paramToBack", None);
     player_id = param_value['player_id'];
     airplane_id = param_value['airplane_id'];
     update_fuel_volume = param_value['update_fuel_volume'];
-    res = updatePlayerAirplane(player_id, airplane_id, update_fuel_volume, 1);
+    res = updatePlayerAirplane(player_id, airplane_id, update_fuel_volume, '');
     return {"result": "success", "result_code": 0}
 
 
@@ -116,7 +116,7 @@ def checkPlayerTaskEndIsCurrentAirportId():
     return {'result': result};
 
 # 检查未接任务是否是当前城市
-# http://127.0.0.1/checkStart?paramToBack={"current_id":321,"player_id":1}
+# http://127.0.0.1/checkCurrentAirPlaneTaskStart?paramToBack={"current_id":321,"player_id":1}
 @btfApp.route("/checkCurrentAirPlaneTaskStart")
 def checkCurrentAirPlaneTaskStart():
     param = g.get("paramToBack", None)
@@ -125,7 +125,7 @@ def checkCurrentAirPlaneTaskStart():
     res = checkStart(current_id, playerId);
     return {"result": res}
 
-
+# http://127.0.0.1/updatePlayerTask?paramToBack={"player_id":6,"task_id":1}
 @btfApp.route("/updatePlayerTask")
 def updatePlayerTask():
     param_value = g.get("paramToBack", None);
