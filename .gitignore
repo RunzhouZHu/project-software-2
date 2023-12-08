@@ -8,3 +8,5 @@
 /Python/sever/__pycache__/FlyZzy.cpython-311.pyc
 *.pyc
 /Python/configration/__pycache__/DatebaseConnectionBySQLAlchemy.cpython-311.pyc
+/Python/__pycache__/DatabaseConnection.cpython-311.pyc
+/Python/__pycache__/Classes.cpython-311.pyc
