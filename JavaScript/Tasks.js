@@ -4,32 +4,51 @@ function task(player_id)
 }
 
 // Show task list left
-function getUnreceivedTask(player_id, player_location)
+async function getUnreceivedTask(player_id, player_location)
 {
-    const unreceivedTask = getAPI("http://127.0.0.1:5000/getUnreceivedTaskId/" + player_id + "/" + player_location, 'getUnreceivedTask')
+    const unreceivedTask = await getAPI("http://127.0.0.1:5000/getUnreceivedTasks/" + player_id + "/" + player_location, 'getUnreceivedTask')
+
+    showTaskInfo(unreceivedTask[0])
 }
 
-function getReceivedTask(player_id)
+async function getReceivedTask(player_id)
 {
+    const receivedTask = await getAPI("http://127.0.0.1:5000/getReceivedTasks/" + player_id, 'getUnreceivedTask')
+    const task_html = document.getElementById('tasks')
 
+
+    for (let i = 0; i < receivedTask.length; i++)
+    {
+        const task_name = document.createElement('p')
+        task_name.innerText = receivedTask[i].task_name
+        task_html.appendChild(task_name)
+        task_name.addEventListener('click', function (evt)
+        {
+            showTaskInfo(receivedTask[i])
+        })
+    }
 }
 
 // Task show task window
 // Task info = task window
-function showTaskInfo(task_id) {
+function showTaskInfo(task) {
     const task_info = document.getElementById('task_info')
 
     // Show task info window
     task_info.innerHTML = "<img src='Css/pics/task_info1.png' alt='task_info'>" +
         "<article>"
-        + "<img src=" + tasks_list[i].task_pic + " alt='task_pic'/>"
-        + tasks_list[i].task_content
+        + "<img src=" + "Css/pics/task_pics/task_pic1.jpg" + " alt='task_pic'/>"
+        + task.task_content
         + "</article>"
     task_info.style.display = 'block';
 
     // Show task button
     const taskButton = button("Css/pics/button.png", "Css/pics/button1.png", "2rem", "18rem", "37rem")
+    task_info.appendChild(taskButton)
 
+    taskButton.addEventListener('click', function (evt) {
+        task_info.style.display = 'none'
+    })
     /*
     const button = document.createElement('img')
     button.src = "Css/pics/button.png";

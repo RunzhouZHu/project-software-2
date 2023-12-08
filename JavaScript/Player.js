@@ -1,19 +1,31 @@
 // fly
 function fly(lat,lon,playerMarker,player_location,map)
 {
+
 }
 
-// Open confirm window
-function flyConfirm()
+
+
+// Calculate distance
+async function calculateDistance(start_lat, start_lon, end_lat, end_lon)
 {
-    const flyConfirm = document.getElementById('fly_confirm')
 
+    result = await getAPI("http://127.0.0.1/calculateDistance?paramToBack={'start_lon':" + start_lon + ", 'start_lat':" + start_lon + ",'end_lon':" + end_lon + ", 'end_lat':" + end_lat + "}")
 
+    console.log(result.result)
 
+    return result.result
 }
+
+
+
+
+
+
+
+
 
 //Display player info
-
 async function initialPlayerInfo() {
     const player_js = await getAPI('http://127.0.0.1:5000/player_info', "player_info")
 
@@ -28,4 +40,10 @@ async function initialPlayerInfo() {
     player_name.innerText = "Name: " + player_js.player_name
     player_money.innerText = "Money: " + player_js.current_amount
     player_fuel.innerText = "Fuel: " + player_js.current_mileage
+
+    return {
+        'name': player_name,
+        'money': player_money,
+        'fuel': player_fuel
+    }
 }

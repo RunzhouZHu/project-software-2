@@ -158,7 +158,8 @@
 }
 
 #task_info article p {
-    margin-left: 2rem;
+    position: absolute;
+    left: 20rem;
 }
 
 #task_info article img {

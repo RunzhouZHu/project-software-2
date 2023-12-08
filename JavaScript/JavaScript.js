@@ -15,14 +15,17 @@ async function initMap() {
     });
 
     //Initial data
-    let player_location = await getAPI('http://127.0.0.1:5000/player_info', 'player location')
+    let player = await getAPI('http://127.0.0.1:5000/player_info', 'player info')
     //a for airports
     const a = await getAPI('http://127.0.0.1:5000/Airports', 'airports')
     //Initial player info
-    initialPlayerInfo()
+    await initialPlayerInfo()
+
+    //Tasks
+    await getReceivedTask(1)
 
     // Set costume markers
-    let playerMarker = setPlayerMark(map, player_location.current_location.lat, player_location.current_location.lon);
+    let playerMarker = setPlayerMark(map, player.current_location.lat, player.current_location.lon);
     // Get airports and mark them on the map
 
     for (let i = 0; i < a.length; i++) {
@@ -52,7 +55,7 @@ async function initMap() {
         })
 
         //
-        marker.addListener('click', function (evt) {
+        marker.addListener('click', async function (evt) {
 
             const flyConfirm = document.getElementById('fly_confirm')
             flyConfirm.style.display = 'block'
@@ -78,13 +81,17 @@ async function initMap() {
 
                 map.panTo({lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)})
                 map.setZoom(6)
-                //
+                // Fly and Update player information
+
             })
 
-            flyConfirmNo.addEventListener('click',function (evt) {
+            flyConfirmNo.addEventListener('click', function (evt) {
                 flyConfirm.style.display = 'none'
                 flyConfirmInfo.innerHTML = ''
             })
+
+            // flight task
+            //await calculateDistance(parseFloat(player.current_location.lat), parseFloat(player.current_location.lon), a[i].lat_deg, a[i].lon_deg)
         })
     }
 }

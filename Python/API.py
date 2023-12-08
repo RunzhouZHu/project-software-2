@@ -15,15 +15,16 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # Get airports
 @app.route('/Airports')
 def airports():
-    sql = "select airport_name, lat_deg, lon_deg, airport_ident from airport;"
+    sql = "select airport_id, airport_name, lat_deg, lon_deg, airport_ident from airport;"
     result = getResultList(sql)
     response = []
     for i in result:
         a = {
-            "airport_name": i[0],
-            "lat_deg": str(i[1]),
-            "lon_deg": str(i[2]),
-            "ICAO": str(i[3])
+            "airport_id": i[0],
+            "airport_name": i[1],
+            "lat_deg": str(i[2]),
+            "lon_deg": str(i[3]),
+            "ICAO": str(i[4])
         }
         response.append(a)
     json_response = json.dumps(response)
@@ -37,7 +38,7 @@ def player_info():
     sql = "select player_id,player_name,player_pic, current_location, current_amount, current_mileage from player where player_id = 1;"
     result = getResultList(sql)
     player_id = result[0][0]
-    player_name =result[0][1]
+    player_name = result[0][1]
     player_pic = result[0][2]
     current_location = result[0][3]
     current_amount = result[0][4]
@@ -58,8 +59,47 @@ def player_info():
 
     return json_response
 
+
+# Get received tasks from database
+@app.route('/getReceivedTasks/<player_id>')
+def getReceivedTasks(player_id):
+    sql_received_task_id = "select task_id from player_task where player_id =" + str(player_id) + ";"
+    received_task_id = getResultList(sql_received_task_id)
+
+    result = []
+    for i in received_task_id:
+        sql_received_task = (
+                "select task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_pic, task_sort, version, next_task, before_task from task" +
+                " where task_id = '" + str(i[0]) + "';")
+        received_task = getResultList(sql_received_task)
+        if received_task is not None:
+            a = {
+                "task_id": received_task[0][0],
+                "task_name": received_task[0][1],
+                "task_first_location": received_task[0][2],
+                "start": received_task[0][3],
+                "end": received_task[0][4],
+                "task_team_sign": received_task[0][5],
+                "task_amount": received_task[0][6],
+                "task_mileage": received_task[0][7],
+                "task_content": received_task[0][8],
+                "task_pic": received_task[0][9],
+                "task_sort": received_task[0][10],
+                "version": received_task[0][11],
+                "next_task": received_task[0][12],
+                "before_task": received_task[0][13]
+            }
+            result.append(a)
+    response = result
+    json_response = json.dumps(response)
+
+    return json_response
+
+
+
+
 # Get unreceived tasks id from current location
-@app.route('/getUnreceivedTaskId/<player_id>/<ICAO>')
+@app.route('/getUnreceivedTasks/<player_id>/<ICAO>')
 def getUnreceivedTaskId(player_id, ICAO):
     sql_all_task_id = "select task_id from task;"
     sql_player_task_id = "select task_id from player_task where player_id =" + str(player_id) + ";"
@@ -74,9 +114,10 @@ def getUnreceivedTaskId(player_id, ICAO):
 
     result = []
     for i in unreceived_task_id:
-        sql_unreceived_task = ("select task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_sort, version, next_task, before_task from task" +
-                               " where task_id = '" + str(i[0]) + "' and task_first_location = '" + ICAO +
-                               "';")
+        sql_unreceived_task = (
+                    "select task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_pic, task_sort, version, next_task, before_task from task" +
+                    " where task_id = '" + str(i[0]) + "' and task_first_location = '" + ICAO +
+                    "';")
         unreceived_task = getResultList(sql_unreceived_task)
         if unreceived_task is not None:
             a = {
@@ -87,10 +128,13 @@ def getUnreceivedTaskId(player_id, ICAO):
                 "end": unreceived_task[0][4],
                 "task_team_sign": unreceived_task[0][5],
                 "task_amount": unreceived_task[0][6],
-                "task_sort": unreceived_task[0][7],
-                "version": unreceived_task[0][8],
-                "next_task": unreceived_task[0][9],
-                "before_task": unreceived_task[0][10]
+                "task_mileage": unreceived_task[0][7],
+                "task_content": unreceived_task[0][8],
+                "task_pic": unreceived_task[0][9],
+                "task_sort": unreceived_task[0][10],
+                "version": unreceived_task[0][11],
+                "next_task": unreceived_task[0][12],
+                "before_task": unreceived_task[0][13]
             }
             result.append(a)
     response = result
