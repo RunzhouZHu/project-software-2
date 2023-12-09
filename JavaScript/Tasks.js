@@ -51,71 +51,30 @@ async function getFinishedTaskList(playerId)
 
 // Show task info window
 function showTaskInfo(task) {
-    const task_info = document.getElementById('task_info')
+    if (task.version === '1')
+    {
+        const task_info = document.getElementById('task_info')
+        // Show task info window
+        task_info.innerHTML = "<img src='Css/pics/task_info1.png' alt='task_info'>" +
+            "<article>"
+            + "<img src=" + task.task_pic + " alt='task_pic'/>"
+            + task.task_content
+            + "</article>"
+        task_info.style.display = 'block';
 
-    // Show task info window
-    task_info.innerHTML = "<img src='Css/pics/task_info1.png' alt='task_info'>" +
-        "<article>"
-        + "<img src=" + "Css/pics/task_pics/task_pic1.jpg" + " alt='task_pic'/>"
-        + task.task_content
-        + "</article>"
-    task_info.style.display = 'block';
+        // Show task button
+        const taskButton = button("Css/pics/button.png", "Css/pics/button1.png", "2rem", "18rem", "37rem")
+        task_info.appendChild(taskButton)
 
-    // Show task button
-    const taskButton = button("Css/pics/button.png", "Css/pics/button1.png", "2rem", "18rem", "37rem")
-    task_info.appendChild(taskButton)
-
-    taskButton.addEventListener('click', function (evt) {
-        task_info.style.display = 'none'
-    })
-
-
-
-
-
-//---------------------------------------------------------------------------------------------------------------------------
-// 以下弃用
-
-// Show task list left
-async function getUnreceivedTask(player_id, player_location) {
-    const unreceivedTask = await getAPI("http://127.0.0.1:5000/getUnreceivedTasks/" + player_id + "/" + player_location, 'getUnreceivedTask')
-    return unreceivedTask
-}
-
-async function getReceivedTask(player_id) {
-    const receivedTask = await getAPI("http://127.0.0.1:5000/getReceivedTask/" + player_id, 'getReceivedTask')
-    const task_html = document.getElementById('tasks')
-
-
-/*    for (let i = 0; i < receivedTask.length; i++) {
-        const task_name = document.createElement('p')
-        task_name.innerText = receivedTask[i].task_name
-        task_html.appendChild(task_name)
-        task_name.addEventListener('click', function (evt) {
-            showTaskInfo(receivedTask[i])
+        taskButton.addEventListener('click', function (evt) {
+            task_info.style.display = 'none'
         })
-    }*/
-}
-
-// Task show task window
-// Task info = task window
-
-    /*
-    const button = document.createElement('img')
-    button.src = "Css/pics/button.png";
-    button.alt = "button";
-    button.style.height = "2rem";
-    button.style.top = "18rem";
-    button.style.left = "37rem";
-    task_info.appendChild(button)
-
-    button.addEventListener('mouseover', function (evt) {
-        button.src = "Css/pics/button1.png"
-    })
-    button.addEventListener('mouseout', function (evt) {
-        button.src = "Css/pics/button.png"
-    })
-    */
+    }
+    else
+    {
+        const version_task_info = document.getElementById('version_tasks')
+        version_task_info.style.display = 'block';
+    }
 }
 
 // Task button
@@ -135,87 +94,48 @@ function button(src, srcMouseover, height, top, left) {
     button.addEventListener('mouseout', function (evt) {
         button.src = src
     })
-
     return button
 }
 
+// Version task initial
+function versionTaskInitial(unreceivedTaskList)
+{
+    for (let i = 0; i < unreceivedTaskList.length; i++) {
+        if (unreceivedTaskList[i].version !== '1')
+        {
+            const version_task_info = document.getElementById('version_tasks')
+            // Show version task window
+            version_task_info.innerHTML = "<img src='Css/pics/version_task.gif' alt='version task'>'" +
+                "<article>"
+                + "<img src=" + unreceivedTaskList[i].task_pic + " alt='task_pic'/>"
+                + unreceivedTaskList[i].task_content
+                + "</article>"
 
-/*
-// Tasks, task names
-const task_info = document.getElementById('task_info')
-const tasks = document.getElementById('tasks')
+            // Show version task button
+            const button = document.createElement('img')
+            button.src = "Css/pics/version_button.gif";
+            button.alt = "button";
+            button.style.height = "6rem";
+            button.style.top = "25.5rem";
+            button.style.left = "6rem";
+            version_task_info.appendChild(button)
 
-for (let i = 0; i < tasks_list.length; i++) {
-    const task_name = document.createElement('p')
-    task_name.innerText = tasks_list[i].task_name
-    tasks.appendChild(task_name)
+             version_task_info.style.display = 'none';
+        }
+    }
+}
 
-    task_name.addEventListener('click', function (evt) {
 
-        // Show task info window
-        task_info.innerHTML = "<img src='Css/pics/task_info1.png' alt='task_info'>" +
-            "<article>"
-            + "<img src=" + tasks_list[i].task_pic + " alt='task_pic'/>"
-            + tasks_list[i].task_content
-            + "</article>"
-        task_info.style.display = 'block';
+// Version task icon
+function showVersionTaskIcon()
+{
+    const version_tasks = document.getElementById('version_tasks')
+    const version_tasks_icon = document.getElementById('version_tasks_icon')
+    version_tasks_icon.addEventListener('click', function (evt) {
+        version_tasks.style.display = 'block';
+    })
 
-        // Show task button
-        const button = document.createElement('img')
-        button.src = "Css/pics/button.png";
-        button.alt = "button";
-        button.style.height = "2rem";
-        button.style.top = "18rem";
-        button.style.left = "37rem";
-        task_info.appendChild(button)
-
-        button.addEventListener('mouseover', function (evt) {
-            button.src = "Css/pics/button1.png"
-        })
-        button.addEventListener('mouseout', function (evt) {
-            button.src = "Css/pics/button.png"
-        })
+    version_tasks.addEventListener('click', function (evt) {
+        version_tasks.style.display = 'none';
     })
 }
-
-// Task info
-task_info.addEventListener('click', function (evt) {
-    task_info.style.display = 'none';
-    task_info.innerHTML = '';
-})
-
-
-// Version Tasks
-const version_tasks = document.getElementById('version_tasks')
-const version_tasks_icon = document.getElementById('version_tasks_icon')
-version_tasks_icon.addEventListener('click', function (evt) {
-
-    version_tasks.innerHTML = "<img src='Css/pics/version_task.gif' alt='version task'>'" +
-        "<article>"
-        + "<img src=" + version_tasks_list[1].task_pic + " alt='task_pic'/>"
-        + version_tasks_list[1].task_content
-        + "</article>"
-
-    version_tasks.style.display = 'block';
-
-    // Show task button
-    const button = document.createElement('img')
-    button.src = "Css/pics/version_button.gif";
-    button.alt = "button";
-    button.style.height = "6rem";
-    button.style.top = "25.5rem";
-    button.style.left = "6rem";
-    version_tasks.appendChild(button)
-})
-
-version_tasks.addEventListener('click', function (evt) {
-    version_tasks.style.display = 'none';
-})
-
-
-//Task check
-function taskCheck() {
-
-}
-
- */

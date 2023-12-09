@@ -46,54 +46,119 @@ function shopInitial(shop_list) {
 
 
 // Shop function
-function shopFunction(shopList, playerId) {
-    const plane_small = document.getElementById('0')
-    const plane_medium = document.getElementById('1')
-    const plane_large = document.getElementById('2')
-    const plane_legendary = document.getElementById('3')
+function shopFunction(shopList, player) {
+    for (let i = 0; i < shopList.length; i++) {
+        const plane_html = document.getElementById(String(i))
+        plane_html.addEventListener('mouseover', function (evt) {
+            plane_html.style.backgroundColor = 'purple'
+        })
+        plane_html.addEventListener('mouseout', function (evt) {
+            plane_html.style.backgroundColor = 'transparent'
+        })
 
-    plane_small.addEventListener('mousemove', function (evt0) {
-        plane_small.style.backgroundColor = 'purple'
+        // player buy plane
+        if (shopList[i].is_players === 1) {
+            plane_html.innerText = plane_html.innerText + "(SOLD)"
+        } else {
+            plane_html.addEventListener('click', function hhd (evt)
+            {
+                if (player.current_amount > shopList[i].airplane_price)
+                {
+                    shopList[i].is_players = 1
+                    player.current_amount = String(parseFloat(player.current_amount) - parseFloat(shopList[i].airplane_price))
+                    displayPlayerInfo(player)
+                    plane_html.innerText = plane_html.innerText + "(SOLD)"
+
+                    document.removeEventListener('click', hhd)
+                }
+                else
+                {
+                    alert("You don't have enough money.")
+                }
+            }, )
+        }
+
+        //player select plane
+        plane_html.addEventListener('click', function (evt)
+        {
+            if (shopList[i].is_players === 1)
+            {
+                if (shopList[i].is_current_airplane === 1)
+                {
+
+                }
+                else
+                {
+                    for (let j = 0; j < shopList.length; j++)
+                    {
+                        shopList[j].is_current_airplane = 0
+                        if (shopList[j].is_players === 1)
+                        {
+                            const plane_html1 = document.getElementById(String(j))
+                            plane_html1.innerText = shopList[j].airplane_type_name + "(SOLD)"
+                        }
+                    }
+                    shopList[i].is_current_airplane = 1
+
+                    //change player fuel consumption
+                    player.consumption = shopList[i].fuel_per_kilo
+
+                    //display player fuel on the top left
+                    displayFuel(shopList[i].current_fuel_volume, shopList[i].fuel_volume)
+
+                    //add s behind the plane's name to show it is selected
+                    plane_html.innerText = shopList[i].airplane_type_name + "(SOLD)" + 's'
+                    console.log("current plane is " + shopList[i].airplane_type_name)
+                }
+            }
+        })
+    }
+}
+
+// refuel
+function refuel(player, shopList, fuel_price) {
+    const refuel_html = document.getElementById('refuel')
+    //effects
+    refuel_html.addEventListener('mouseover', function (evt) {
+        refuel_html.style.backgroundColor = 'gray'
     })
-    plane_medium.addEventListener('mousemove', function (evt0) {
-        plane_medium.style.backgroundColor = 'purple'
-    })
-    plane_large.addEventListener('mousemove', function (evt0) {
-        plane_large.style.backgroundColor = 'purple'
-    })
-    plane_legendary.addEventListener('mousemove', function (evt0) {
-        plane_legendary.style.backgroundColor = 'purple'
+    refuel_html.addEventListener('mouseout', function (evt){
+        refuel_html.style.backgroundColor = 'transparent'
     })
 
-    plane_small.addEventListener('mouseout', function (evt0) {
-        plane_small.style.backgroundColor = 'transparent'
+    //refuel
+    refuel_html.addEventListener('click', function (evt) {
+        for (let i = 0; i < shopList.length; i++)
+        {
+            if (shopList[i].is_current_airplane === 1)
+            {
+                const fuel = shopList[i].fuel_volume - shopList[i].current_fuel_volume
+                if (player.current_amount > fuel * fuel_price)
+                {
+                    shopList[i].current_fuel_volume = shopList[i].fuel_volume
+                    player.current_amount = player.current_amount - fuel * fuel_price
+                }
+                else if (player.current_amount > 0 && player.current_amount < fuel * fuel_price)
+                {
+                    shopList[i].current_fuel_volume = shopList[i].current_fuel_volume + player.current_amount * fuel_price
+                    player.current_amount = 0
+                    alert("You've run out of money, watch out!!")
+                }
+                else if (player.current_amount === 0)
+                {
+                    alert("You don't have a sent.")
+                }
+                displayFuel(shopList[i].current_fuel_volume, shopList[i].fuel_volume)
+                displayPlayerInfo(player)
+            }
+        }
     })
-    plane_medium.addEventListener('mouseout', function (evt0) {
-        plane_medium.style.backgroundColor = 'transparent'
-    })
-    plane_large.addEventListener('mouseout', function (evt0) {
-        plane_large.style.backgroundColor = 'transparent'
-    })
-    plane_legendary.addEventListener('mouseout', function (evt0) {
-        plane_legendary.style.backgroundColor = 'transparent'
-    })
-
-    //HHDHHDHHDHHD
-    plane_small.addEventListener('click', function (evt0) {
-        plane_small.innerText = plane_small.innerText + "  SOLD!"
-    })
-    plane_medium.addEventListener('click', function (evt0) {
-        plane_medium.innerText = plane_medium.innerText + "  SOLD!"
-    })
-    plane_large.addEventListener('click', function (evt0) {
-        plane_large.innerText = plane_large.innerText + "  SOLD!"
-    })
-    plane_legendary.addEventListener('click', function (evt0) {
-        plane_legendary.innerText = plane_legendary.innerText + "  SOLD!"
-    })
-
-
 }
 
 
+// Display fuel on the top left
+function displayFuel(fuel_current, fuel_full) {
+    const player_fuel = document.getElementById("player_fuel")
+    player_fuel.innerText = parseInt(fuel_current) + '/' + fuel_full
+}
 

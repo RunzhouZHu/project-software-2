@@ -19,15 +19,15 @@ function mapMarker(lat, lon, title, map) {
 // Set player marker on the map
 function setPlayerMark(map, lat, lon) {
     const image = {
-        url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-        size: new google.maps.Size(20, 32),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(0, 32),
+        url: "Css/pics/player_mark.png/",
     };
+
     const shape = {
-        coords: [1, 1, 1, 20, 18, 20, 18, 1],
+        //coords: [1, 1, 1, 20, 18, 20, 18, 1],
         type: "poly",
     };
+
+
     return new google.maps.Marker({
         position: {lat: parseFloat(lat), lng: parseFloat(lon)},
         map,

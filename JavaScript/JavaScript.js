@@ -17,10 +17,21 @@ async function initMap() {
     //a for airports
     const a = await getAPI('http://127.0.0.1:5000/Airports', 'airports')
 
+    //Initial player
+    let player = await getPlayerInfo(1)
+    console.log(player.consumption)
+    displayPlayerInfo(player)
 
-    //Initial data
-    let player = await getAPI('http://127.0.0.1:5000/player_info/1', 'player info')
-    await getPlayerInfo(1)
+    //Shop
+    let shop_list = await getShopList(player.player_id)
+    // Initial Shop
+    shopInitial(shop_list)
+    shopFunction(shop_list, player)
+
+    // Global parameter
+    let fuel_price = 1
+
+    refuel(player,shop_list, fuel_price)
 
     //Tasks
     let receivedTaskList = await getReceivedTaskList(player.player_id)
@@ -34,10 +45,9 @@ async function initMap() {
     let unreceivedTaskList = await getUnreceivedTaskList(player.player_id)
     //check finished task
     let finishedTaskList = await getFinishedTaskList(player.player_id)
-
-    //Shop
-    const shop_list = await getShopList(player.player_id)
-
+    // Version task
+    versionTaskInitial(unreceivedTaskList)
+    showVersionTaskIcon()
 
     // Mark on the map
     const marker_list = []
@@ -47,26 +57,38 @@ async function initMap() {
         const marker = mapMarker(a[i].lat_deg, a[i].lon_deg, a[i].airport_name, map)
         const weather = await getWeather(a[i].lat_deg, a[i].lon_deg)
 
-        // Create an info window to share between markers.
-        const info = "<h3>" + a[i].airport_name + "</h3>" +
-            "<p>" + 'ICAO: ' + a[i].ICAO + "</p>" +
-            "<p>" + 'distance: ' + "</p>" +
-            "<p>" + 'consume: ' + "</p>" +
-            "<p>" + 'weather: ' + weather + "</p>"
 
-        const infoWindow = new google.maps.InfoWindow({
-            content: info,
-        });
+        // Create an info window to share between markers.
+        const infoWindow = new google.maps.InfoWindow()
+
 
         // Add marker info window listener
         marker.addListener('mouseover', () => {
+            //calculate fuel consumption
+            // calculate distance
+            const startDot = {
+                "lat": player.deg.lat,
+                "lng": player.deg.lon
+            }
+            const endDot = {
+                "lat": a[i].lat_deg,
+                "lng": a[i].lon_deg
+            }
+            const distance = calcCoordsDistance(startDot, endDot)
+            const fuelConsumption = calcFuelConsumption(shop_list,distance)
+
+            infoWindow.setContent("<h3>" + a[i].airport_name + "</h3>" +
+                "<p>" + 'ICAO: ' + a[i].ICAO + "</p>" +
+                "<p>" + 'distance: ' + String(parseInt(distance.kmVal)) + " km</p>" +
+                "<p>" + 'consume: ' + String(parseInt(fuelConsumption)) + "</p>" +
+                "<p>" + 'weather: ' + weather + "</p>")
 
             infoWindow.open(marker.getMap(), marker);
-        })
+            })
 
         marker.addListener('mouseout', () => {
             infoWindow.close();
-        })
+            })
 
         marker_list.push(marker)
     }
@@ -74,12 +96,26 @@ async function initMap() {
 
     for (let i = 0; i < marker_list.length; i++) {
         marker_list[i].addListener('click', async function (evt) {
+
+            // calculate fuel consumption
+            // calculate distance
+            const startDot = {
+                "lat": player.deg.lat,
+                "lng": player.deg.lon
+            }
+            const endDot = {
+                "lat": a[i].lat_deg,
+                "lng": a[i].lon_deg
+            }
+            const distance = calcCoordsDistance(startDot, endDot)
+            const fuelConsumption = calcFuelConsumption(shop_list,distance)
+
             const flyConfirm = document.getElementById('fly_confirm')
             flyConfirm.style.display = 'block'
             const flyConfirmInfo = document.createElement('article')
             flyConfirmInfo.innerHTML = "<p>" + a[i].airport_name + "</p>" +
-                "<p>" + a[i].airport_name + "</p>" +
-                "<p>" + a[i].airport_name + "</p>"
+                "<p>" + String(parseInt(distance.kmVal))  + " KM</p>" +
+                "<p>Consumption: " + String(parseInt(fuelConsumption)) + "</p>"
 
 
             flyConfirm.appendChild(flyConfirmInfo)
@@ -91,60 +127,97 @@ async function initMap() {
                 flyConfirm.style.display = 'none'
                 flyConfirmInfo.innerHTML = ''
 
-                //Update player marker and move cam
-                playerMarker.setMap(null)
-                playerMarker = setPlayerMark(map, a[i].lat_deg, a[i].lon_deg)
+                // fly and consume fuel
+                // calculate fuel consumption
+                // calculate distance
+                const startDot = {
+                    "lat": player.deg.lat,
+                    "lng": player.deg.lon
+                }
+                const endDot = {
+                    "lat": a[i].lat_deg,
+                    "lng": a[i].lon_deg
+                }
+                const distance = calcCoordsDistance(startDot, endDot)
+                const fuelConsumption = calcFuelConsumption(shop_list,distance)
 
-                map.panTo({lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)})
-                map.setZoom(6)
+                for (let m = 0; m < shop_list.length; m++)
+                {
+                    if (shop_list[m].is_current_airplane === 1)
+                    {
+                        if (shop_list[m].current_fuel_volume > fuelConsumption)
+                        {
+                            shop_list[m].current_fuel_volume = parseFloat(shop_list[m].current_fuel_volume) - parseFloat(fuelConsumption)
+                            displayFuel(shop_list[m].current_fuel_volume, shop_list[m].fuel_volume)
 
-                //Update player info
-                player.current_location = a[i].ICAO
-                player.deg.lat = a[i].lat_deg
-                player.deg.lon = a[i].lon_deg
+                            // Update player marker and move cam
+                            playerMarker.setMap(null)
+                            playerMarker = setPlayerMark(map, a[i].lat_deg, a[i].lon_deg)
 
+                            map.panTo({lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)})
+                            map.setZoom(6)
+
+                            //Update player info
+                            player.current_location = a[i].ICAO
+                            player.deg.lat = a[i].lat_deg
+                            player.deg.lon = a[i].lon_deg
+
+                            //Tasks
+                            for (let j = 0; j < unreceivedTaskList.length; j++) {
+                                for (let k = 0; k < finishedTaskList.length; k++) {
+                                    for (let l = 0; l < receivedTaskList.length; l++) {
+                                        // bool flag
+                                        //
+                                        const continueTask1 = unreceivedTaskList[j].task_first_location === a[i].ICAO
+                                        const continueTask2 = finishedTaskList[k].task_team_sign === unreceivedTaskList[j].task_team_sign
+                                        //const continueTask3 = finishedTaskList[k].task_id === unreceivedTaskList[j].before_task
+
+                                        //New task
+                                        const newTask1 = unreceivedTaskList[j].task_first_location === a[i].ICAO
+                                        const newTask2 = unreceivedTaskList[j].before_task === 0
+
+                                        if ((continueTask1 && continueTask2)||(newTask1 && newTask2))
+                                        {
+                                            showTaskInfo(unreceivedTaskList[j])
+                                            const taskTake = unreceivedTaskList[j]
+                                            unreceivedTaskList = listMinus(unreceivedTaskList, taskTake)
+                                            receivedTaskList.push(taskTake)
+                                        }
+                                    }
+                                }
+                            }
+                            for (let j = 0; j < unreceivedTaskList.length; j++) {
+                                for (let k = 0; k < finishedTaskList.length; k++) {
+                                    for (let l = 0; l < receivedTaskList.length; l++) {
+                                        if (receivedTaskList[l].end === a[i].ICAO) {
+                                            const taskFinish = receivedTaskList[l]
+                                            receivedTaskList = listMinus(receivedTaskList, taskFinish)
+                                            finishedTaskList.push(taskFinish)
+                                            player.current_amount = player.current_amount + taskFinish.task_amount
+                                            displayPlayerInfo(player)
+                                        }
+                                    }
+                                }
+                            }
+                            clearTaskList()
+                            displayReceivedTasks(receivedTaskList)
+
+                            unreceivedTaskList.sort()
+                            receivedTaskList.sort()
+                            finishedTaskList.sort()
+                            console.log(unreceivedTaskList)
+                            console.log(receivedTaskList)
+                            console.log(finishedTaskList)
+                        }
+                        else
+                        {
+                            alert("Not enough fuel.")
+                        }
+                    }
+                }
                 console.log(player.current_location)
                 console.log(player.deg.lat)
                 console.log(player.deg.lon)
-
-
-                //Task
-                //check if task can take
-                for (let j = 0; j < unreceivedTaskList.length; j++) {
-                    for (let k = 0; k < finishedTaskList.length; k++) {
-                        for (let l = 0; l < receivedTaskList.length; l++) {
-                            if (unreceivedTaskList[j].task_first_location === a[i].ICAO && finishedTaskList[k].task_team_sign === unreceivedTaskList[j].task_team_sign) {
-                                showTaskInfo(unreceivedTaskList[j])
-                                const taskTake = unreceivedTaskList[j]
-                                unreceivedTaskList = listMinus(unreceivedTaskList, taskTake)
-                                receivedTaskList.push(taskTake)
-                            }
-                        }
-                    }
-                }
-                for (let j = 0; j < unreceivedTaskList.length; j++) {
-                    for (let k = 0; k < finishedTaskList.length; k++) {
-                        for (let l = 0; l < receivedTaskList.length; l++) {
-                            if (receivedTaskList[l].end === a[i].ICAO) {
-                                console.log("LLLLLLLLLLLL")
-                                const taskFinish = receivedTaskList[l]
-                                receivedTaskList = listMinus(receivedTaskList, taskFinish)
-                                finishedTaskList.push(taskFinish)
-                            }
-                        }
-                    }
-                }
-
-                clearTaskList()
-                displayReceivedTasks(receivedTaskList)
-
-                unreceivedTaskList.sort()
-                receivedTaskList.sort()
-                finishedTaskList.sort()
-                console.log(unreceivedTaskList)
-                console.log(receivedTaskList)
-                console.log(finishedTaskList)
-                //
             }, {once: true})
 
             flyConfirmNo.addEventListener('click', function (evt) {
@@ -155,15 +228,9 @@ async function initMap() {
             //remove listener
 
         }, {once: true})
-
     }
 
-    // Initial Shop
-    console.log(shop_list)
-    console.log(shop_list[1].airplane_text)
-    shopInitial(shop_list)
 
-    shopFunction(shop_list, player.player_id)
 
 
     // Move player check tasks

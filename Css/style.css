@@ -79,6 +79,7 @@
     height: 30rem;
 }
 
+
 #shop article {
     position: relative;
     top: 5rem;
@@ -100,7 +101,7 @@
 }
 
 #shop article figure figcaption {
-    font-size: larger;
+    font-size: medium;
     font-weight: bold;
     color: coral;
 }
@@ -108,6 +109,20 @@
 #shop article figure p {
     width: 9rem;
 }
+
+/* refuel */
+#refuel {
+    position: absolute;
+    z-index: 2;
+
+    top: 2rem;
+    left: 70rem;
+}
+
+#refuel img {
+    height: 5rem;
+}
+
 
 /* Tasks */
 #tasks {
