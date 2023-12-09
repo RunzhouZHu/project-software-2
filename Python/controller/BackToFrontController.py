@@ -76,18 +76,15 @@ def calculateDistance():
     return {"result": distance, "result_code": 1}
 
 
-#http://127.0.0.1/updateCurrentFule?paramToBack={'player_id': 1, 'airplane_id': 2,'update_fuel_volume':222}
+#http://127.0.0.1/updatePlayerInfo?paramToBack={'player_id': 1, 'task_amount': 2,'player_pic':"", 'current_location':""}
 @btfApp.route("/updatePlayerInfo")
 def updatePlayerInfo():
     param_value = g.get("paramToBack", None);
     player_id = param_value['player_id'];
-    task_amount = param_value['task_amount'];
+    amount = param_value['task_amount'];
     player_pic = param_value['player_pic'];
-    sql = (f"UPDATE player set "
-           f"current_amount = current_amount+{'0' if task_amount == '' else task_amount}"
-           f" {'' if player_pic == '' else f',player_pic = {player_pic}'}"
-           f" where player_id ={player_id}");
-    return db.oprateData(sql);
+    current_location = param_value['current_location'];
+    return updatePlayer(player_id, current_location, amount, player_pic);
 
 # http://127.0.0.1/updateCurrentFule?paramToBack={'player_id': 1, 'airplane_id': 2,'update_fuel_volume':666}
 @btfApp.route("/updateCurrentFule")
