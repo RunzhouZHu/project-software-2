@@ -60,87 +60,73 @@ def player_info(player_id):
     return json_response
 
 
-# Get received tasks from database
-@app.route('/getReceivedTasks/<player_id>')
+# Get received task id from database
+@app.route('/getReceivedTaskId/<player_id>')
 def getReceivedTasks(player_id):
     sql_received_task_id = "select task_id from player_task where player_id =" + str(player_id) + ";"
     received_task_id = getResultList(sql_received_task_id)
 
-    result = []
-    for i in received_task_id:
-        sql_received_task = (
-                "select task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_pic, task_sort, version, next_task, before_task from task" +
-                " where task_id = '" + str(i[0]) + "';")
-        received_task = getResultList(sql_received_task)
-        if received_task is not None:
-            a = {
-                "task_id": received_task[0][0],
-                "task_name": received_task[0][1],
-                "task_first_location": received_task[0][2],
-                "start": received_task[0][3],
-                "end": received_task[0][4],
-                "task_team_sign": received_task[0][5],
-                "task_amount": received_task[0][6],
-                "task_mileage": received_task[0][7],
-                "task_content": received_task[0][8],
-                "task_pic": received_task[0][9],
-                "task_sort": received_task[0][10],
-                "version": received_task[0][11],
-                "next_task": received_task[0][12],
-                "before_task": received_task[0][13]
-            }
-            result.append(a)
-    response = result
-    json_response = json.dumps(response)
-
-    return json_response
-
-
+    return json.dumps(received_task_id)
 
 
 # Get unreceived tasks id from current location
-@app.route('/getUnreceivedTasks/<player_id>/<ICAO>')
+@app.route('/getUnreceivedTaskId/<player_id>/<ICAO>')
 def getUnreceivedTaskId(player_id, ICAO):
-    sql_all_task_id = "select task_id from task;"
-    sql_player_task_id = "select task_id from player_task where player_id =" + str(player_id) + ";"
+    sql_all_task_id = "select task_id from task where task_first_location = '" + str(ICAO) + "';"
+    sql_player_task_id = "select task_id from player_task where player_id = " + str(player_id) + ";"
 
     all_task_id = getResultList(sql_all_task_id)
     player_task_id = getResultList(sql_player_task_id)
 
-    unreceived_task_id = []
-    for i in all_task_id:
-        if i not in player_task_id:
-            unreceived_task_id.append(i)
+    if all_task_id is None:
+        response = []
+        json_response = json.dumps(response)
+        return json_response
+    else:
+        unreceived_task_id = []
+        for i in all_task_id[0]:
+            if i not in player_task_id[0]:
+                unreceived_task_id.append(i)
 
-    result = []
-    for i in unreceived_task_id:
-        sql_unreceived_task = (
-                    "select task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_pic, task_sort, version, next_task, before_task from task" +
-                    " where task_id = '" + str(i[0]) + "' and task_first_location = '" + ICAO +
-                    "';")
-        unreceived_task = getResultList(sql_unreceived_task)
-        if unreceived_task is not None:
-            a = {
-                "task_id": unreceived_task[0][0],
-                "task_name": unreceived_task[0][1],
-                "task_first_location": unreceived_task[0][2],
-                "start": unreceived_task[0][3],
-                "end": unreceived_task[0][4],
-                "task_team_sign": unreceived_task[0][5],
-                "task_amount": unreceived_task[0][6],
-                "task_mileage": unreceived_task[0][7],
-                "task_content": unreceived_task[0][8],
-                "task_pic": unreceived_task[0][9],
-                "task_sort": unreceived_task[0][10],
-                "version": unreceived_task[0][11],
-                "next_task": unreceived_task[0][12],
-                "before_task": unreceived_task[0][13]
-            }
-            result.append(a)
-    response = result
+        if len(unreceived_task_id) == 0:
+            response = []
+            json_response = json.dumps(response)
+            return json_response
+        else:
+            response = unreceived_task_id
+            json_response = json.dumps(response)
+            return json_response
+
+
+# Get task
+@app.route('/getTaskInfo/<task_id>')
+def getTaskInfo(task_id):
+    sql = ("select task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_pic, task_sort, version, next_task, before_task from task" +
+                " where task_id = '" + str(task_id) + "';")
+
+    task_info = getResultList(sql)
+    response = {
+        "task_id": task_info[0][0],
+        "task_name": task_info[0][1],
+        "task_first_location": task_info[0][2],
+        "start": task_info[0][3],
+        "end": task_info[0][4],
+        "task_team_sign": task_info[0][5],
+        "task_amount": task_info[0][6],
+        "task_mileage": task_info[0][7],
+        "task_content": task_info[0][8],
+        "task_pic": task_info[0][9],
+        "task_sort": task_info[0][10],
+        "version": task_info[0][11],
+        "next_task": task_info[0][12],
+        "before_task": task_info[0][13]
+    }
     json_response = json.dumps(response)
 
     return json_response
+
+
+
 
 # change player location
 @app.route("/changePlayerLocation/<airportId>")
@@ -151,7 +137,6 @@ def changePlayerLocation(airportId):
     getResultList(sql)
 
     return "success"
-
 
 
 @app.errorhandler(404)

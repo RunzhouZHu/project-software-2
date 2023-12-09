@@ -1,5 +1,5 @@
 // fly
-function fly(airport, player,playerMarker, map) {
+function fly(airport, player, playerMarker, map) {
     const flyConfirm = document.getElementById('fly_confirm')
     flyConfirm.style.display = 'block'
 

@@ -1,36 +1,44 @@
-function task(player_id)
-{
-
+// Get received task id
+async function getReceivedTaskId(player_id) {
+    const receivedTaskId =  await getAPI("http://127.0.0.1:5000/getReceivedTaskId/" + player_id, 'Get received task id')
+    return receivedTaskId
 }
 
-// Show task list left
-async function getUnreceivedTask(player_id, player_location)
-{
-    const unreceivedTask = await getAPI("http://127.0.0.1:5000/getUnreceivedTasks/" + player_id + "/" + player_location, 'getUnreceivedTask')
-
-    showTaskInfo(unreceivedTask[0])
+// Get task list
+async function getTaskList(taskId) {
+    const task_list = []
+    for (let i = 0; i < taskId.length; i++) {
+        const task = await getAPI("http://127.0.0.1:5000/getTaskInfo/" + taskId[i], "get task")
+        task_list.push(task)
+    }
+    return task_list
 }
 
-async function getReceivedTask(player_id)
-{
-    const receivedTask = await getAPI("http://127.0.0.1:5000/getReceivedTasks/" + player_id, 'getUnreceivedTask')
-    const task_html = document.getElementById('tasks')
-
-
-    for (let i = 0; i < receivedTask.length; i++)
-    {
-        const task_name = document.createElement('p')
-        task_name.innerText = receivedTask[i].task_name
-        task_html.appendChild(task_name)
-        task_name.addEventListener('click', function (evt)
-        {
-            showTaskInfo(receivedTask[i])
-        })
+// Display received tasks
+function displayReceivedTasks(task_list) {
+    const tasks_html = document.getElementById('tasks')
+    for (let i = 0; i < task_list.length; i++) {
+        const task_p_html = document.createElement('p')
+        task_p_html.innerText = task_list[i].task_name
+        tasks_html.appendChild(task_p_html)
     }
 }
 
-// Task show task window
-// Task info = task window
+//Get unreceived taskId
+async function getUnreceivedTaskId(playerId, ICAO)
+{
+    const  unreceivedTaskId = await getAPI("http://127.0.0.1:5000/getUnreceivedTaskId/" + playerId + "/" + ICAO)
+    return unreceivedTaskId
+}
+
+// Player take task
+async function takeTask(playerId, taskId)
+{
+    await getAPI("http://127.0.0.1/takeTasks?paramToBack={'player_id':" + parseInt(playerId)  + ",'task_id':" + parseInt(taskId) + "}")
+}
+
+
+//
 function showTaskInfo(task) {
     const task_info = document.getElementById('task_info')
 
@@ -49,6 +57,35 @@ function showTaskInfo(task) {
     taskButton.addEventListener('click', function (evt) {
         task_info.style.display = 'none'
     })
+
+
+
+
+
+// Show task list left
+async function getUnreceivedTask(player_id, player_location) {
+    const unreceivedTask = await getAPI("http://127.0.0.1:5000/getUnreceivedTasks/" + player_id + "/" + player_location, 'getUnreceivedTask')
+    return unreceivedTask
+}
+
+async function getReceivedTask(player_id) {
+    const receivedTask = await getAPI("http://127.0.0.1:5000/getReceivedTask/" + player_id, 'getReceivedTask')
+    const task_html = document.getElementById('tasks')
+
+
+    for (let i = 0; i < receivedTask.length; i++) {
+        const task_name = document.createElement('p')
+        task_name.innerText = receivedTask[i].task_name
+        task_html.appendChild(task_name)
+        task_name.addEventListener('click', function (evt) {
+            showTaskInfo(receivedTask[i])
+        })
+    }
+}
+
+// Task show task window
+// Task info = task window
+
     /*
     const button = document.createElement('img')
     button.src = "Css/pics/button.png";
@@ -68,8 +105,7 @@ function showTaskInfo(task) {
 }
 
 // Task button
-function button(src, srcMouseover, height, top, left)
-{
+function button(src, srcMouseover, height, top, left) {
     // Show button
     const button = document.createElement('img')
     button.src = src;
@@ -88,9 +124,6 @@ function button(src, srcMouseover, height, top, left)
 
     return button
 }
-
-
-
 
 
 /*
