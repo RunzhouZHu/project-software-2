@@ -23,12 +23,17 @@ async function initMap() {
     await getPlayerInfo(1)
 
     //Tasks
-    let receivedTaskId = await getReceivedTaskId(player.player_id)
-    let receivedTaskList = await getTaskList(receivedTaskId)
+    let receivedTaskList = await getReceivedTaskList(player.player_id)
     displayReceivedTasks(receivedTaskList)
 
     // Set costume markers
     let playerMarker = setPlayerMark(map, player.deg.lat, player.deg.lon);
+
+    //Task
+    // check unreceived task
+    let unreceivedTaskList = await getUnreceivedTaskList(player.player_id)
+    //check finished task
+    let finishedTaskList = await getFinishedTaskList(player.player_id)
 
 
     // Mark on the map
@@ -64,7 +69,6 @@ async function initMap() {
     }
 
 
-
     for (let i = 0; i < marker_list.length; i++) {
         marker_list[i].addListener('click', async function (evt) {
             const flyConfirm = document.getElementById('fly_confirm')
@@ -92,57 +96,76 @@ async function initMap() {
                 map.setZoom(6)
 
                 //Update player info
-                const distance = await calculateDistance(parseFloat(player.deg.lat), parseFloat(player.deg.lat), parseFloat(a[i].lat_deg), parseFloat(a[i].lat_deg))
-                player = await getAPI('http://127.0.0.1:5000/player_info/1', 'player info')
-                await flyUpdate(a[i].airport_id)
+                player.current_location = a[i].ICAO
+                player.deg.lat = a[i].lat_deg
+                player.deg.lon = a[i].lon_deg
+
+                console.log(player.current_location)
+                console.log(player.deg.lat)
+                console.log(player.deg.lon)
+
 
                 //Task
-                //check unreceived task
-                const unReceivedTaskId = await getUnreceivedTaskId(player.player_id,player.current_location)
-                const unReceivedTaskList = await getTaskList(unReceivedTaskId)
-                console.log(unReceivedTaskList)
-                if(unReceivedTaskList.length !== 0)
-                {
-                    for (let i=0;i<receivedTaskList.length;i++)
-                    {
-                        if (receivedTaskList[i].task_team_sign === unReceivedTaskList[0].task_team_sign && receivedTaskList[i].task_id === unReceivedTaskList[0].before_task)
-                        {
-                            showTaskInfo(unReceivedTaskList[0])
-                        }
-                        else
-                        {
-                            console.log("lllllllllllllllllllllllllllll")
-                            console.log(receivedTaskList[i].task_id)
-                            console.log(unReceivedTaskList[0].before_task)
+                //check if task can take
+                for (let j = 0; j < unreceivedTaskList.length; j++) {
+                    for (let k = 0; k < finishedTaskList.length; k++) {
+                        for (let l = 0; l < receivedTaskList.length; l++) {
+                            if (unreceivedTaskList[j].task_first_location === a[i].ICAO && finishedTaskList[k].task_team_sign === unreceivedTaskList[j].task_team_sign) {
+                                showTaskInfo(unreceivedTaskList[j])
+                                const taskTake = unreceivedTaskList[j]
+                                unreceivedTaskList = listMinus(unreceivedTaskList, taskTake)
+                                receivedTaskList.push(taskTake)
+                            }
                         }
                     }
                 }
-                else
-                {
-                    console.log("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+                for (let j = 0; j < unreceivedTaskList.length; j++) {
+                    for (let k = 0; k < finishedTaskList.length; k++) {
+                        for (let l = 0; l < receivedTaskList.length; l++) {
+                            if (receivedTaskList[l].end === a[i].ICAO) {
+                                console.log("LLLLLLLLLLLL")
+                                const taskFinish = receivedTaskList[l]
+                                receivedTaskList = listMinus(receivedTaskList, taskFinish)
+                                finishedTaskList.push(taskFinish)
+                            }
+                        }
+                    }
                 }
 
-                //Take task
-                await takeTask(player.player_id, unReceivedTaskId)
-
-                receivedTaskId = await getReceivedTaskId(player.player_id)
-                receivedTaskList = await getTaskList(receivedTaskId)
+                clearTaskList()
                 displayReceivedTasks(receivedTaskList)
 
+                unreceivedTaskList.sort()
+                receivedTaskList.sort()
+                finishedTaskList.sort()
+                console.log(unreceivedTaskList)
+                console.log(receivedTaskList)
+                console.log(finishedTaskList)
                 //
-
-
-            },{ once: true })
+            }, {once: true})
 
             flyConfirmNo.addEventListener('click', function (evt) {
                 flyConfirm.style.display = 'none'
                 flyConfirmInfo.innerHTML = ''
-            }, { once: true })
+            }, {once: true})
 
             //remove listener
 
-        }, { once: true })
+        }, {once: true})
+
+
+
+
+
+
     }
+
+    // Initial Shop
+    const shop_list = await getShopList(player.player_id)
+    console.log(shop_list)
+    console.log(shop_list[1].airplane_text)
+    shopInitial(shop_list)
+
 
 
     // Move player check tasks
@@ -230,7 +253,9 @@ async function initMap() {
 
 }
 
-// Initial Shop
-shopInitial()
+
+
+
+
 
 window.initMap = initMap;

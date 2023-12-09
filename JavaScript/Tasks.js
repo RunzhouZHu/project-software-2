@@ -1,34 +1,38 @@
-// Get received task id
-async function getReceivedTaskId(player_id) {
-    const receivedTaskId =  await getAPI("http://127.0.0.1:5000/getReceivedTaskId/" + player_id, 'Get received task id')
-    return receivedTaskId
+// Get received task list
+async function getReceivedTaskList(playerId)
+{
+    const receivedTaskList = await getAPI("http://127.0.0.1:5000/getReceivedTasks/" + playerId, "Get received task list")
+
+    return receivedTaskList
 }
 
-// Get task list
-async function getTaskList(taskId) {
-    const task_list = []
-    for (let i = 0; i < taskId.length; i++) {
-        const task = await getAPI("http://127.0.0.1:5000/getTaskInfo/" + taskId[i], "get task")
-        task_list.push(task)
-    }
-    return task_list
-}
 
 // Display received tasks
 function displayReceivedTasks(task_list) {
     const tasks_html = document.getElementById('tasks')
     for (let i = 0; i < task_list.length; i++) {
-        const task_p_html = document.createElement('p')
-        task_p_html.innerText = task_list[i].task_name
-        tasks_html.appendChild(task_p_html)
+        const task_name = document.createElement('p')
+        task_name.innerText = task_list[i].task_name
+        tasks_html.appendChild(task_name)
+        task_name.addEventListener('click', function (evt) {
+            showTaskInfo(task_list[i])
+        })
     }
 }
 
-//Get unreceived taskId
-async function getUnreceivedTaskId(playerId, ICAO)
+// Clear task list left side
+function clearTaskList(){
+    const tasks_html = document.getElementById('tasks')
+    tasks_html.innerHTML = '<img src="Css/pics/tasks.png" alt="tasks">'
+}
+
+
+//Get unreceived task list
+async function getUnreceivedTaskList(playerId)
 {
-    const  unreceivedTaskId = await getAPI("http://127.0.0.1:5000/getUnreceivedTaskId/" + playerId + "/" + ICAO)
-    return unreceivedTaskId
+    const  unreceivedTaskList = await getAPI("http://127.0.0.1:5000/getUnreceivedTasks/" + playerId, "Get unreceived task list")
+
+    return unreceivedTaskList
 }
 
 // Player take task
@@ -37,8 +41,15 @@ async function takeTask(playerId, taskId)
     await getAPI("http://127.0.0.1/takeTasks?paramToBack={'player_id':" + parseInt(playerId)  + ",'task_id':" + parseInt(taskId) + "}")
 }
 
+//Get finished task list
+async function getFinishedTaskList(playerId)
+{
+    const finishedTaskList = await getAPI("http://127.0.0.1:5000/getFinishedTasks/" + playerId, "Get finished task list")
 
-//
+    return finishedTaskList
+}
+
+// Show task info window
 function showTaskInfo(task) {
     const task_info = document.getElementById('task_info')
 
@@ -62,6 +73,9 @@ function showTaskInfo(task) {
 
 
 
+//---------------------------------------------------------------------------------------------------------------------------
+// 以下弃用
+
 // Show task list left
 async function getUnreceivedTask(player_id, player_location) {
     const unreceivedTask = await getAPI("http://127.0.0.1:5000/getUnreceivedTasks/" + player_id + "/" + player_location, 'getUnreceivedTask')
@@ -73,14 +87,14 @@ async function getReceivedTask(player_id) {
     const task_html = document.getElementById('tasks')
 
 
-    for (let i = 0; i < receivedTask.length; i++) {
+/*    for (let i = 0; i < receivedTask.length; i++) {
         const task_name = document.createElement('p')
         task_name.innerText = receivedTask[i].task_name
         task_html.appendChild(task_name)
         task_name.addEventListener('click', function (evt) {
             showTaskInfo(receivedTask[i])
         })
-    }
+    }*/
 }
 
 // Task show task window

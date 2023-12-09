@@ -60,72 +60,131 @@ def player_info(player_id):
     return json_response
 
 
-# Get received task id from database
-@app.route('/getReceivedTaskId/<player_id>')
+# Get received task from database
+@app.route('/getReceivedTasks/<player_id>')
 def getReceivedTasks(player_id):
     sql_received_task_id = "select task_id from player_task where player_id =" + str(player_id) + ";"
     received_task_id = getResultList(sql_received_task_id)
+    receivedTasks = []
+    for i in received_task_id:
+        sql = (
+                "select task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_pic, task_sort, version, next_task, before_task from task" +
+                " where task_id = '" + str(i[0]) + "';")
+        task_info = getResultList(sql)
+        receivedTask = {
+            "task_id": task_info[0][0],
+            "task_name": task_info[0][1],
+            "task_first_location": task_info[0][2],
+            "start": task_info[0][3],
+            "end": task_info[0][4],
+            "task_team_sign": task_info[0][5],
+            "task_amount": task_info[0][6],
+            "task_mileage": task_info[0][7],
+            "task_content": task_info[0][8],
+            "task_pic": task_info[0][9],
+            "task_sort": task_info[0][10],
+            "version": task_info[0][11],
+            "next_task": task_info[0][12],
+            "before_task": task_info[0][13]
+        }
+        receivedTasks.append(receivedTask)
 
-    return json.dumps(received_task_id)
+    response = receivedTasks
+    json_response = json.dumps(response)
+    return json_response
 
 
-# Get unreceived tasks id from current location
-@app.route('/getUnreceivedTaskId/<player_id>/<ICAO>')
-def getUnreceivedTaskId(player_id, ICAO):
-    sql_all_task_id = "select task_id from task where task_first_location = '" + str(ICAO) + "';"
+# Get unreceived tasks from current location
+@app.route('/getUnreceivedTasks/<player_id>')
+def getUnreceivedTasks(player_id):
+    sql_all_task_id = "select task_id from task;"
     sql_player_task_id = "select task_id from player_task where player_id = " + str(player_id) + ";"
 
     all_task_id = getResultList(sql_all_task_id)
     player_task_id = getResultList(sql_player_task_id)
 
-    if all_task_id is None:
-        response = []
-        json_response = json.dumps(response)
-        return json_response
-    else:
+    if all_task_id is not None:
         unreceived_task_id = []
-        for i in all_task_id[0]:
-            if i not in player_task_id[0]:
+        for i in all_task_id:
+            if i not in player_task_id:
                 unreceived_task_id.append(i)
 
-        if len(unreceived_task_id) == 0:
-            response = []
-            json_response = json.dumps(response)
-            return json_response
-        else:
-            response = unreceived_task_id
-            json_response = json.dumps(response)
-            return json_response
+        un_received_tasks = []
+        for i in unreceived_task_id:
+            sql = (
+                    "select task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_pic, task_sort, version, next_task, before_task from task" +
+                    " where task_id = '" + str(i[0]) + "';")
+            task_info = getResultList(sql)
+            unreceivedTask = {
+                "task_id": task_info[0][0],
+                "task_name": task_info[0][1],
+                "task_first_location": task_info[0][2],
+                "start": task_info[0][3],
+                "end": task_info[0][4],
+                "task_team_sign": task_info[0][5],
+                "task_amount": task_info[0][6],
+                "task_mileage": task_info[0][7],
+                "task_content": task_info[0][8],
+                "task_pic": task_info[0][9],
+                "task_sort": task_info[0][10],
+                "version": task_info[0][11],
+                "next_task": task_info[0][12],
+                "before_task": task_info[0][13]
+            }
+            un_received_tasks.append(unreceivedTask)
 
+        response = un_received_tasks
 
-# Get task
-@app.route('/getTaskInfo/<task_id>')
-def getTaskInfo(task_id):
-    sql = ("select task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_pic, task_sort, version, next_task, before_task from task" +
-                " where task_id = '" + str(task_id) + "';")
+    else:
+        response = []
 
-    task_info = getResultList(sql)
-    response = {
-        "task_id": task_info[0][0],
-        "task_name": task_info[0][1],
-        "task_first_location": task_info[0][2],
-        "start": task_info[0][3],
-        "end": task_info[0][4],
-        "task_team_sign": task_info[0][5],
-        "task_amount": task_info[0][6],
-        "task_mileage": task_info[0][7],
-        "task_content": task_info[0][8],
-        "task_pic": task_info[0][9],
-        "task_sort": task_info[0][10],
-        "version": task_info[0][11],
-        "next_task": task_info[0][12],
-        "before_task": task_info[0][13]
-    }
     json_response = json.dumps(response)
-
     return json_response
 
 
+# Get finished tasks
+@app.route('/getFinishedTasks/<player_id>')
+def getFinishedTasks(player_id):
+    sql_finished_task_id = "select task_id from player_task where is_complete = 1 and player_id = '" + str(
+        player_id) + "';"
+    finished_task_id = getResultList(sql_finished_task_id)
+    finishedTasks = []
+    for i in finished_task_id:
+        sql = (
+                "select task_id, task_name, task_first_location, start, end, task_team_sign, task_amount, task_mileage, task_content, task_pic, task_sort, version, next_task, before_task from task" +
+                " where task_id = '" + str(i[0]) + "';")
+        task_info = getResultList(sql)
+        finishedTask = {
+            "task_id": task_info[0][0],
+            "task_name": task_info[0][1],
+            "task_first_location": task_info[0][2],
+            "start": task_info[0][3],
+            "end": task_info[0][4],
+            "task_team_sign": task_info[0][5],
+            "task_amount": task_info[0][6],
+            "task_mileage": task_info[0][7],
+            "task_content": task_info[0][8],
+            "task_pic": task_info[0][9],
+            "task_sort": task_info[0][10],
+            "version": task_info[0][11],
+            "next_task": task_info[0][12],
+            "before_task": task_info[0][13]
+        }
+        finishedTasks.append(finishedTask)
+
+    response = finishedTasks
+    json_response = json.dumps(response)
+    return json_response
+
+
+# finish task
+@app.route("/fisishTask/<playerId>/<taskId>")
+def fisishTask(playerId, taskId):
+    sql = "update player_task set is_complete = 1 where player_id = '" + str(playerId) + "' and task_id = '" + str(
+        taskId) + "';"
+    getResultList(sql)
+
+    return "success"
 
 
 # change player location
@@ -137,6 +196,43 @@ def changePlayerLocation(airportId):
     getResultList(sql)
 
     return "success"
+
+
+# Get bought and un bought planes from database
+@app.route("/shop/<playerId>")
+def shop(playerId):
+    sql_all_planes = "select airplane_id, airplane_type_name, fuel_volume, fuel_per_kilo, airplane_pic, airplane_price, airplane_text from airplane;"
+    sql_player_planes = "select airplane_id, current_fuel_volume, is_current_airplane from player_airplane where player_id = '" + str(
+        playerId) + "';"
+
+    all_planes = getResultList(sql_all_planes)
+    player_planes = getResultList(sql_player_planes)
+
+    planes = []
+
+    for i in all_planes:
+        plane = {
+            "airplane_id": i[0],
+            "airplane_type_name": i[1],
+            "fuel_volume": i[2],
+            "fuel_per_kilo": i[3],
+            "airplane_pic": i[4],
+            "airplane_price": i[5],
+            "current_fuel_volume": 0,
+            "is_current_airplane": 0,
+            "is_players": 0,
+            "airplane_text": i[6]
+        }
+        for j in player_planes:
+            if j[1] == plane["airplane_id"]:
+                plane["current_fuel_volume"] = j[2]
+                plane["is_players"] = 1
+
+        planes.append(plane)
+
+    response = planes
+    json_response = json.dumps(response)
+    return json_response
 
 
 @app.errorhandler(404)
