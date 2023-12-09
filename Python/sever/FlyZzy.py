@@ -29,7 +29,7 @@ zzyApp = Blueprint('zzyApp', __name__)
 
 
 def updatePlayer(player_id, current_location, task_amount, player_pic):
-    sql = (f"UPDATE player set current_location='{'current_location' if current_location == '' else current_location}',"
+    sql = (f"UPDATE player set {'' if current_location == '' else f'current_location = {current_location},'}"
            f"current_amount = current_amount+{'0' if task_amount == '' else task_amount}"
            f" {'' if player_pic == '' else f',player_pic = {player_pic}'}"
            f" where player_id ={player_id}");
