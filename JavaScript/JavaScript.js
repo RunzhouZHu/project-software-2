@@ -35,6 +35,9 @@ async function initMap() {
     //check finished task
     let finishedTaskList = await getFinishedTaskList(player.player_id)
 
+    //Shop
+    const shop_list = await getShopList(player.player_id)
+
 
     // Mark on the map
     const marker_list = []
@@ -153,19 +156,14 @@ async function initMap() {
 
         }, {once: true})
 
-
-
-
-
-
     }
 
     // Initial Shop
-    const shop_list = await getShopList(player.player_id)
     console.log(shop_list)
     console.log(shop_list[1].airplane_text)
     shopInitial(shop_list)
 
+    shopFunction(shop_list, player.player_id)
 
 
     // Move player check tasks
