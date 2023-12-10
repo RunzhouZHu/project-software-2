@@ -25,6 +25,7 @@
 #fly_confirm article {
     position: relative;
     width: 20rem;
+    font-size: small;
 
     top: 4rem;
     left: 3rem;
@@ -174,7 +175,7 @@
 
 #task_info article p {
     position: absolute;
-    left: 20rem;
+    left: 17rem;
 }
 
 #task_info article img {
@@ -228,3 +229,36 @@
 #version_tasks_icon img {
     height: 8rem;
 }
+
+
+/* Task bonus window */
+#task_bonus_window {
+    position: absolute;
+    z-index: 2;
+
+    top: 25%;
+    left: 30%;
+
+    display: none;
+}
+
+#task_bonus_window img {
+    height: 10rem;
+    position: absolute;
+}
+
+#task_bonus_window p {
+    position: absolute;
+    color: aliceblue;
+
+    top: 3rem;
+    left: 8.5rem;
+
+    width: 12rem;
+}
+
+
+
+
+
+

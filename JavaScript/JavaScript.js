@@ -29,7 +29,7 @@ async function initMap() {
     shopFunction(shop_list, player)
 
     // Global parameter
-    let fuel_price = 1
+    let fuel_price = 0.5
 
     refuel(player,shop_list, fuel_price)
 
@@ -53,7 +53,7 @@ async function initMap() {
     const marker_list = []
 
     for (let i = 0; i < a.length; i++) {
-        // 在地图上添加标记
+        // Set marker on map
         const marker = mapMarker(a[i].lat_deg, a[i].lon_deg, a[i].airport_name, map)
         const weather = await getWeather(a[i].lat_deg, a[i].lon_deg)
 
@@ -162,7 +162,7 @@ async function initMap() {
                             player.deg.lat = a[i].lat_deg
                             player.deg.lon = a[i].lon_deg
 
-                            //Tasks
+                             //Tasks
                             for (let j = 0; j < unreceivedTaskList.length; j++) {
                                 for (let k = 0; k < finishedTaskList.length; k++) {
                                     for (let l = 0; l < receivedTaskList.length; l++) {
@@ -170,7 +170,7 @@ async function initMap() {
                                         //
                                         const continueTask1 = unreceivedTaskList[j].task_first_location === a[i].ICAO
                                         const continueTask2 = finishedTaskList[k].task_team_sign === unreceivedTaskList[j].task_team_sign
-                                        //const continueTask3 = finishedTaskList[k].task_id === unreceivedTaskList[j].before_task
+                                        const continueTask3 = finishedTaskList[k].task_id === unreceivedTaskList[j].before_task
 
                                         //New task
                                         const newTask1 = unreceivedTaskList[j].task_first_location === a[i].ICAO
@@ -186,6 +186,7 @@ async function initMap() {
                                     }
                                 }
                             }
+
                             for (let j = 0; j < unreceivedTaskList.length; j++) {
                                 for (let k = 0; k < finishedTaskList.length; k++) {
                                     for (let l = 0; l < receivedTaskList.length; l++) {
@@ -194,17 +195,44 @@ async function initMap() {
                                             receivedTaskList = listMinus(receivedTaskList, taskFinish)
                                             finishedTaskList.push(taskFinish)
                                             player.current_amount = player.current_amount + taskFinish.task_amount
+                                            showTaskBonusWindow(taskFinish.task_amount)
                                             displayPlayerInfo(player)
                                         }
                                     }
                                 }
                             }
+
+
+                            for (let j = 0; j < unreceivedTaskList.length; j++) {
+                                for (let k = 0; k < finishedTaskList.length; k++) {
+                                    for (let l = 0; l < receivedTaskList.length; l++) {
+                                        // bool flag
+                                        //
+                                        const continueTask1 = unreceivedTaskList[j].task_first_location === a[i].ICAO
+                                        const continueTask2 = finishedTaskList[k].task_team_sign === unreceivedTaskList[j].task_team_sign
+                                        const continueTask3 = finishedTaskList[k].task_id === unreceivedTaskList[j].before_task
+
+                                        //New task
+                                        const newTask1 = unreceivedTaskList[j].task_first_location === a[i].ICAO
+                                        const newTask2 = unreceivedTaskList[j].before_task === 0
+
+                                        if ((continueTask1 && continueTask2)||(newTask1 && newTask2))
+                                        {
+                                            showTaskInfo(unreceivedTaskList[j])
+                                            const taskTake = unreceivedTaskList[j]
+                                            unreceivedTaskList = listMinus(unreceivedTaskList, taskTake)
+                                            receivedTaskList.push(taskTake)
+                                        }
+                                    }
+                                }
+                            }
+
                             clearTaskList()
                             displayReceivedTasks(receivedTaskList)
 
-                            unreceivedTaskList.sort()
-                            receivedTaskList.sort()
-                            finishedTaskList.sort()
+                            //unreceivedTaskList.sort()
+                            //receivedTaskList.sort()
+                            //finishedTaskList.sort()
                             console.log(unreceivedTaskList)
                             console.log(receivedTaskList)
                             console.log(finishedTaskList)

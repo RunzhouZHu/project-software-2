@@ -25,10 +25,18 @@ function shopInitial(shop_list) {
             " alt='plane_pic'>" +
             "<figcaption id = '" + i + "'>" + shop_list[i].airplane_type_name + "</figcaption>"
 
-        const text = document.createElement('p');
-        text.innerText = shop_list[i].airplane_text;
+        const text1 = document.createElement('p');
+        const text2 = document.createElement('p');
+        const text3 = document.createElement('p');
+        text1.innerText = shop_list[i].airplane_text;
+        text2.innerText = "The price is: " + shop_list[i].airplane_price;
+        text3.innerText = "The fuel volume is: " + shop_list[i].fuel_volume;
 
-        goods.appendChild(text)
+
+        goods.appendChild(text1)
+        goods.appendChild(text2)
+        goods.appendChild(text3)
+
 
         shop_page.appendChild(goods)
 
@@ -107,7 +115,7 @@ function shopFunction(shopList, player) {
                     displayFuel(shopList[i].current_fuel_volume, shopList[i].fuel_volume)
 
                     //add s behind the plane's name to show it is selected
-                    plane_html.innerText = shopList[i].airplane_type_name + "(SOLD)" + 's'
+                    plane_html.innerText = shopList[i].airplane_type_name + "(SOLD)" + '(*)'
                     console.log("current plane is " + shopList[i].airplane_type_name)
                 }
             }
@@ -140,7 +148,7 @@ function refuel(player, shopList, fuel_price) {
                 }
                 else if (player.current_amount > 0 && player.current_amount < fuel * fuel_price)
                 {
-                    shopList[i].current_fuel_volume = shopList[i].current_fuel_volume + player.current_amount * fuel_price
+                    shopList[i].current_fuel_volume = shopList[i].current_fuel_volume + player.current_amount / fuel_price
                     player.current_amount = 0
                     alert("You've run out of money, watch out!!")
                 }

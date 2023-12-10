@@ -1,6 +1,5 @@
 // Get received task list
-async function getReceivedTaskList(playerId)
-{
+async function getReceivedTaskList(playerId) {
     const receivedTaskList = await getAPI("http://127.0.0.1:5000/getReceivedTasks/" + playerId, "Get received task list")
 
     return receivedTaskList
@@ -21,29 +20,26 @@ function displayReceivedTasks(task_list) {
 }
 
 // Clear task list left side
-function clearTaskList(){
+function clearTaskList() {
     const tasks_html = document.getElementById('tasks')
     tasks_html.innerHTML = '<img src="Css/pics/tasks.png" alt="tasks">'
 }
 
 
 //Get unreceived task list
-async function getUnreceivedTaskList(playerId)
-{
-    const  unreceivedTaskList = await getAPI("http://127.0.0.1:5000/getUnreceivedTasks/" + playerId, "Get unreceived task list")
+async function getUnreceivedTaskList(playerId) {
+    const unreceivedTaskList = await getAPI("http://127.0.0.1:5000/getUnreceivedTasks/" + playerId, "Get unreceived task list")
 
     return unreceivedTaskList
 }
 
 // Player take task
-async function takeTask(playerId, taskId)
-{
-    await getAPI("http://127.0.0.1/takeTasks?paramToBack={'player_id':" + parseInt(playerId)  + ",'task_id':" + parseInt(taskId) + "}")
+async function takeTask(playerId, taskId) {
+    await getAPI("http://127.0.0.1/takeTasks?paramToBack={'player_id':" + parseInt(playerId) + ",'task_id':" + parseInt(taskId) + "}")
 }
 
 //Get finished task list
-async function getFinishedTaskList(playerId)
-{
+async function getFinishedTaskList(playerId) {
     const finishedTaskList = await getAPI("http://127.0.0.1:5000/getFinishedTasks/" + playerId, "Get finished task list")
 
     return finishedTaskList
@@ -51,30 +47,22 @@ async function getFinishedTaskList(playerId)
 
 // Show task info window
 function showTaskInfo(task) {
-    if (task.version === '1')
-    {
-        const task_info = document.getElementById('task_info')
-        // Show task info window
-        task_info.innerHTML = "<img src='Css/pics/task_info1.png' alt='task_info'>" +
-            "<article>"
-            + "<img src=" + task.task_pic + " alt='task_pic'/>"
-            + task.task_content
-            + "</article>"
-        task_info.style.display = 'block';
+    const task_info = document.getElementById('task_info')
+    // Show task info window
+    task_info.innerHTML = "<img src='Css/pics/task_info1.png' alt='task_info'>" +
+        "<article>"
+        + "<img src=" + task.task_pic + " alt='task_pic'/>"
+        + task.task_content
+        + "</article>"
+    task_info.style.display = 'block';
 
-        // Show task button
-        const taskButton = button("Css/pics/button.png", "Css/pics/button1.png", "2rem", "18rem", "37rem")
-        task_info.appendChild(taskButton)
+    // Show task button
+    const taskButton = button("Css/pics/button.png", "Css/pics/button1.png", "2rem", "20rem", "40rem")
+    task_info.appendChild(taskButton)
 
-        taskButton.addEventListener('click', function (evt) {
-            task_info.style.display = 'none'
-        })
-    }
-    else
-    {
-        const version_task_info = document.getElementById('version_tasks')
-        version_task_info.style.display = 'block';
-    }
+    taskButton.addEventListener('click', function (evt) {
+        task_info.style.display = 'none'
+    })
 }
 
 // Task button
@@ -98,37 +86,32 @@ function button(src, srcMouseover, height, top, left) {
 }
 
 // Version task initial
-function versionTaskInitial(unreceivedTaskList)
-{
+function versionTaskInitial(unreceivedTaskList) {
     for (let i = 0; i < unreceivedTaskList.length; i++) {
-        if (unreceivedTaskList[i].version !== '1')
-        {
-            const version_task_info = document.getElementById('version_tasks')
-            // Show version task window
-            version_task_info.innerHTML = "<img src='Css/pics/version_task.gif' alt='version task'>'" +
-                "<article>"
-                + "<img src=" + unreceivedTaskList[i].task_pic + " alt='task_pic'/>"
-                + unreceivedTaskList[i].task_content
-                + "</article>"
+        const version_task_info = document.getElementById('version_tasks')
+        // Show version task window
+        version_task_info.innerHTML = "<img src='Css/pics/version_task.gif' alt='version task'>'" +
+            "<article>"
+            + "<img src='Css/pics/task_pics/version_task_pic1.jpg' alt='task_pic'/>"
+            + "<p>Welcom to our brand-new tasks. This is some version information here.</p>"
+            + "</article>"
 
-            // Show version task button
-            const button = document.createElement('img')
-            button.src = "Css/pics/version_button.gif";
-            button.alt = "button";
-            button.style.height = "6rem";
-            button.style.top = "25.5rem";
-            button.style.left = "6rem";
-            version_task_info.appendChild(button)
+        // Show version task button
+        const button = document.createElement('img')
+        button.src = "Css/pics/version_button.gif";
+        button.alt = "button";
+        button.style.height = "6rem";
+        button.style.top = "25.5rem";
+        button.style.left = "6rem";
+        version_task_info.appendChild(button)
 
-             version_task_info.style.display = 'none';
-        }
+        version_task_info.style.display = 'none';
     }
 }
 
 
 // Version task icon
-function showVersionTaskIcon()
-{
+function showVersionTaskIcon() {
     const version_tasks = document.getElementById('version_tasks')
     const version_tasks_icon = document.getElementById('version_tasks_icon')
     version_tasks_icon.addEventListener('click', function (evt) {
@@ -139,3 +122,21 @@ function showVersionTaskIcon()
         version_tasks.style.display = 'none';
     })
 }
+
+// Show task bonus window
+function showTaskBonusWindow(bonus) {
+    const task_bonus_window = document.getElementById('task_bonus_window')
+    const task_bonus_window_text = document.createElement('p')
+
+    task_bonus_window_text.innerText = "Task finished, you got " + bonus + " money for bonus!"
+    task_bonus_window.appendChild(task_bonus_window_text)
+
+    task_bonus_window.style.display = 'block'
+
+    task_bonus_window.addEventListener('click', function (evt) {
+        task_bonus_window.style.display = 'none'
+        task_bonus_window_text.innerText = ''
+    })
+}
+
+
