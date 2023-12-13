@@ -83,7 +83,7 @@ function shopFunction(shopList, player) {
                 {
                     alert("You don't have enough money.")
                 }
-            }, )
+            },  {once: true})
         }
 
         //player select plane

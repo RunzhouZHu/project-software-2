@@ -14,14 +14,14 @@ body {
 
 #login article {
     position: absolute;
-    top: 15%;
-    left: 30%;
+    top: 20%;
+    left: 35%;
 }
 
 #login article form {
     position: absolute;
-    top: 22.87rem;
-    left: 23.3rem;
+    top: 14.4rem;
+    left: 14.9rem;
 
     z-index: 2;
 }
@@ -34,19 +34,21 @@ body {
     border: 0;
 
     color: aliceblue;
-    font-size: x-large;
+    font-size: medium;
 
 }
 
 #login article img {
     position: absolute;
+    height: 30rem;
 
     z-index: 1;
 }
 
 #login article #button {
     position: absolute;
+    height: 2.6rem;
 
-    top: 26.6rem;
-    left: 21rem;
+    top: 16.9rem;
+    left: 13.5rem;
 }
