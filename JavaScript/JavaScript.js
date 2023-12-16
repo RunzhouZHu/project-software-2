@@ -93,6 +93,17 @@ async function initMap() {
         marker_list.push(marker)
     }
 
+    function markerFinder(){
+        for (let i = 0; i< marker_list.length; i++)
+        {
+            marker_list[i].addListener('click', function markerFinder (evt){
+                console.log("The marker is " + i)
+                return i
+            })
+        }
+    }
+
+    markerFinder()
 
     for (let i = 0; i < marker_list.length; i++) {
         marker_list[i].addListener('click', async function (evt) {
@@ -257,98 +268,5 @@ async function initMap() {
 
         }, {once: true})
     }
-
-
-
-
-    // Move player check tasks
-
-
-    /*
-    for (let i = 0; i < marker_list.length; i++) {
-        marker_list[i].addListener('click', async function (evt) {
-
-            const flyConfirm = document.getElementById('fly_confirm')
-            flyConfirm.style.display = 'block'
-
-            const flyConfirmInfo = document.createElement('article')
-            flyConfirmInfo.innerHTML = "<p>" + a[i].airport_name + "</p>" +
-                "<p>" + a[i].airport_name + "</p>" +
-                "<p>" + a[i].airport_name + "</p>"
-
-
-            flyConfirm.appendChild(flyConfirmInfo)
-
-            const flyConfirmYes = document.getElementById('flyConfirmYes')
-            const flyConfirmNo = document.getElementById('flyConfirmNo')
-
-            flyConfirmYes.addEventListener('click', function (evt) {
-                flyConfirm.style.display = 'none'
-                flyConfirmInfo.innerHTML = ''
-
-                //Update player marker and move cam
-                playerMarker.setMap(null)
-                playerMarker = setPlayerMark(map, a[i].lat_deg, a[i].lon_deg)
-
-                map.panTo({lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)})
-                map.setZoom(6)
-                // Fly and Update player information
-
-            })
-
-            flyConfirmNo.addEventListener('click', function (evt) {
-                flyConfirm.style.display = 'none'
-                flyConfirmInfo.innerHTML = ''
-            })
-        })
-    }
-/*
-
-    /*
-            //
-            marker.addListener('click', async function (evt) {
-
-                const flyConfirm = document.getElementById('fly_confirm')
-                flyConfirm.style.display = 'block'
-
-                const flyConfirmInfo = document.createElement('article')
-                flyConfirmInfo.innerHTML = "<p>" + a[i].airport_name + "</p>" +
-                    "<p>" + a[i].airport_name + "</p>" +
-                    "<p>" + a[i].airport_name + "</p>"
-
-
-                flyConfirm.appendChild(flyConfirmInfo)
-
-                const flyConfirmYes = document.getElementById('flyConfirmYes')
-                const flyConfirmNo = document.getElementById('flyConfirmNo')
-
-                flyConfirmYes.addEventListener('click', function (evt) {
-                    flyConfirm.style.display = 'none'
-                    flyConfirmInfo.innerHTML = ''
-
-                    //Update player marker and move cam
-                    playerMarker.setMap(null)
-                    playerMarker = setPlayerMark(map, a[i].lat_deg, a[i].lon_deg)
-
-                    map.panTo({lat: parseFloat(a[i].lat_deg), lng: parseFloat(a[i].lon_deg)})
-                    map.setZoom(6)
-                    // Fly and Update player information
-
-                })
-
-                flyConfirmNo.addEventListener('click', function (evt) {
-                    flyConfirm.style.display = 'none'
-                    flyConfirmInfo.innerHTML = ''
-                })
-            })
-    */
-
-
 }
-
-
-
-
-
-
 window.initMap = initMap;

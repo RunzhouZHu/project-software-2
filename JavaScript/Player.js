@@ -40,30 +40,30 @@ function calcFuelConsumption(shopList, distance)
 //really consume fuel
 
 
-// 计算距离
-/** 计算两个点(经纬度)的距离
- * @param startDot 开始点的经纬度(lng.经度 lat.纬度)
- * @param endDot 结束点的经纬度(lng.经度 lat.纬度)
- * @returns {{originVal: string, mVal: string, kmVal: string}} originVal.原始值单位为米
+// Calculate distance
+/** Calculate distance
+ * @param startDot (lng.longitude lat.latitude)
+ * @param endDot (lng.longitude lat.latitude)
+ * @returns {{originVal: string, mVal: string, kmVal: string}}
  */
 function calcCoordsDistance(startDot, endDot) {
   if (!startDot || !endDot) {
-    return { mVal: "", kmVal: "", originVal: "两点的经纬度为必传" };
+    return { mVal: "", kmVal: "", originVal: "No input" };
   }
-  const earthRadius = 6378137.0, // 地球半径
-    PI = Math.PI, // 圆周率π
-    startRadianLat = getRadian(startDot.lat), // 纬度 - 开始
-    endRadianLat = getRadian(endDot.lat), // 纬度 - 结束
-    latDiffVal = startRadianLat - endRadianLat, // 维度差值
-    lngDiffVal = getRadian(startDot.lng) - getRadian(endDot.lng), // 经度差值
-    latDiffSinVal = Math.sin(latDiffVal / 2), // 维度差值的正弦值
-    lngDiffSinVal = Math.sin(lngDiffVal / 2), // 经度差值的正弦值
-    latCosProduct = Math.cos(startRadianLat) * Math.cos(endRadianLat), // 维度的余弦值乘积
+  const earthRadius = 6378137.0,
+    PI = Math.PI,
+    startRadianLat = getRadian(startDot.lat),
+    endRadianLat = getRadian(endDot.lat),
+    latDiffVal = startRadianLat - endRadianLat,
+    lngDiffVal = getRadian(startDot.lng) - getRadian(endDot.lng),
+    latDiffSinVal = Math.sin(latDiffVal / 2),
+    lngDiffSinVal = Math.sin(lngDiffVal / 2),
+    latCosProduct = Math.cos(startRadianLat) * Math.cos(endRadianLat),
     powVal = latCosProduct * Math.pow(lngDiffSinVal, 2),
-    sqrtVal = Math.pow(latDiffSinVal, 2) + powVal, // 开平方根的值
-    result = 2 * Math.asin(Math.sqrt(sqrtVal)) * earthRadius, // 结果值
-    mUnit = result.toFixed(2) + "m", // 单位米
-    kmUnit = (result / 1000).toFixed(5) + "km"; // 单位千米
+    sqrtVal = Math.pow(latDiffSinVal, 2) + powVal,
+    result = 2 * Math.asin(Math.sqrt(sqrtVal)) * earthRadius,
+    mUnit = result.toFixed(2) + "m",
+    kmUnit = (result / 1000).toFixed(5) + "km";
   function getRadian(d) {
     return (d * PI) / 180.0;
   }
